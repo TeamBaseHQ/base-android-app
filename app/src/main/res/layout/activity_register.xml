@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.base.base.RegisterActivity"
+    android:background="@drawable/loginbackgroundcolor">
+
+    <ImageView
+        android:id="@+id/ivRLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/loginlogo"
+        />
+
+    <TextView
+        android:id="@+id/tvRCreateAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivRLogo"
+        android:layout_marginLeft="20dp"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:layout_marginTop="60dp"
+        android:text="Create an Account"/>
+
+    <EditText
+        android:id="@+id/etRName"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/tvRCreateAccount"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/login_edittext_email"
+        android:hint="Name"
+        android:paddingLeft="15dp"
+        />
+
+    <EditText
+        android:id="@+id/etREmail"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/etRName"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="#FFFFFF"
+        android:hint="Email"
+        android:paddingLeft="15dp"
+        />
+
+    <EditText
+        android:id="@+id/etRPassword"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/etREmail"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:inputType="textPassword"
+        android:background="@drawable/login_edittext_password"
+        android:hint="Password"
+        android:paddingLeft="15dp"
+        />
+
+    <Button
+        android:id="@+id/btnRCreateAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etRPassword"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/button_design"
+        android:textColor="#FFFFFF"
+        android:text="Create Account"/>
+
+    <TextView
+        android:id="@+id/tvRLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:text="Log In"/>
+
+</RelativeLayout>

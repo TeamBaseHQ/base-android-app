@@ -1,0 +1,104 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.base.base.ThreadFragment">
+
+    <TextView
+        android:id="@+id/tvFtHeadingThread"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textColor="@android:color/black"
+        android:text="Start a new thread"
+        android:layout_marginTop="20sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvFtCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:text="@string/cancel"
+        android:textSize="20sp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"/>
+
+    <View
+        android:id="@+id/vFtview"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#c0c0c0"
+        android:layout_below="@id/tvFtHeadingThread"
+        android:layout_marginTop="15dp"/>
+
+    <TextView
+        android:id="@+id/tvFtThreadSubject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textSize="18sp"
+        android:text="Subject"
+        android:layout_below="@+id/vFtview"/>
+
+    <EditText
+        android:id="@+id/etFtThreadSubject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvFtThreadSubject"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/edittext_channelname"
+        android:paddingLeft="10dp"
+        android:lines="2"
+        android:maxLines="1"
+        android:hint="Eg: New Website Redesign"
+        />
+
+    <TextView
+        android:id="@+id/tvFtThreadDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textSize="18sp"
+        android:text="Description"
+        android:layout_below="@+id/etFtThreadSubject"/>
+
+    <EditText
+        android:id="@+id/etFtThreadDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvFtThreadDescription"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/edittext_channelname"
+        android:paddingLeft="10dp"
+        android:lines="8"
+        android:maxLines="10"
+        android:hint="Eg: New Website Redesign"
+        />
+
+    <Button
+        android:id="@+id/btnFtStart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/button_design"
+        android:text="Start"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"/>
+
+
+</RelativeLayout>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.base.base.CreateTeamActivity"
+    android:background="@drawable/loginbackgroundcolor">
+
+    <TextView
+        android:id="@+id/tvCtHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textSize="18sp"
+        android:layout_marginLeft="20dp"
+        android:text="Create a Team"
+        android:textColor="#9EA0BF"/>
+
+    <TextView
+        android:id="@+id/tvCtCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textSize="18sp"
+        android:layout_marginRight="20dp"
+        android:text="Cancel"
+        android:layout_alignParentRight="true"
+        android:textColor="#FFFFFF"/>
+
+    <ScrollView
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCtHeading">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivCtUpload"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/photoupload"
+
+        />
+
+    <TextView
+        android:id="@+id/tvCtname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivCtUpload"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        android:textColor="#9EA0BF"
+        android:text="Name"/>
+
+    <EditText
+        android:id="@+id/etCtTeamName"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/tvCtname"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/teamname_edittext"
+        android:paddingLeft="15dp"
+        android:hint="Eg: Team Acme"/>
+
+    <TextView
+        android:id="@+id/tvCtDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etCtTeamName"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
+        android:textColor="#9EA0BF"
+        android:text="Description"
+        />
+
+    <EditText
+        android:id="@+id/etCtDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCtDescription"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:inputType="textMultiLine"
+        android:lines="4"
+        android:maxLines="4"
+        android:background="@drawable/teamname_edittext"
+        android:hint="Eg: In-chargeof the Acme product..."
+        android:gravity="top"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
+        />
+
+    <Button
+        android:id="@+id/btnCtCreate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etCtDescription"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/button_design"
+        android:textColor="#FFFFFF"
+        android:text="Create"/>
+
+        </RelativeLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

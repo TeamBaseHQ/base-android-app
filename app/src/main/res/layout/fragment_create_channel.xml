@@ -1,0 +1,186 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.base.base.CreateChannelFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/tvCcHeadingChannel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textColor="@android:color/black"
+        android:text="Create a new channel"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvCcCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:text="@string/cancel"
+        android:textSize="20sp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="70dp"/>
+
+    <View
+        android:id="@+id/vCcview"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#c0c0c0"
+        android:layout_below="@id/tvCcHeadingChannel"
+        android:layout_marginTop="15dp"/>
+
+    <ScrollView
+        android:layout_below="@+id/vCcview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvCcChannelName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textSize="18sp"
+        android:text="Name"/>
+
+    <EditText
+        android:id="@+id/etCcChannelName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCcChannelName"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/edittext_channelname"
+        android:paddingLeft="10dp"
+        android:lines="2"
+        android:maxLines="1"
+        android:hint="Eg: Design"
+        />
+
+    <TextView
+        android:id="@+id/tvCcChannelPrivacy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etCcChannelName"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textSize="18sp"
+        android:text="Privacy"/>
+
+    <CheckBox
+        android:id="@+id/cbCcPublic"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:button="@null"
+        android:background="?android:attr/listChoiceIndicatorMultiple"
+        android:layout_below="@id/tvCcChannelPrivacy"
+        />
+
+    <TextView
+        android:id="@+id/tvCcPublic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCcChannelPrivacy"
+        android:layout_toRightOf="@+id/cbCcPublic"
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="Public"/>
+
+    <TextView
+        android:id="@+id/tvCcPublicDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCcPublic"
+        android:layout_toRightOf="@+id/cbCcPublic"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
+        android:text="Everyone on your team will be able to join this channel."/>
+
+    <CheckBox
+        android:id="@+id/cbCcPrivate"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:button="@null"
+        android:background="?android:attr/listChoiceIndicatorMultiple"
+        android:layout_below="@id/cbCcPublic"
+        />
+
+    <TextView
+        android:id="@+id/tvCcPrivate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cbCcPublic"
+        android:layout_toRightOf="@+id/cbCcPrivate"
+        android:layout_marginTop="15dp"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="Private"/>
+
+    <TextView
+        android:id="@+id/tvCcPrivateDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCcPrivate"
+        android:layout_toRightOf="@+id/cbCcPrivate"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
+        android:text="Only invited teammates will be able to access this channel."/>
+
+    <TextView
+        android:id="@+id/tvCcAddMembers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cbCcPrivate"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textSize="18sp"
+        android:text="Add Members"
+        android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:id="@+id/etCcAddMember"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCcAddMembers"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:paddingLeft="10dp"
+        android:hint="Search for team members to add"
+        android:lines="2"
+        android:maxLines="1"
+        android:background="@drawable/edittext_channelname"/>
+
+    <Button
+        android:id="@+id/btnCcCreate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etCcAddMember"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/button_design"
+        android:text="Create"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"/>
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.base.base.LoginActivity"
+    android:background="@drawable/loginbackgroundcolor">
+
+    <ImageView
+        android:id="@+id/ivLLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/loginlogo"
+        />
+
+    <TextView
+        android:id="@+id/tvLloginHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="80dp"
+        android:textSize="18sp"
+        android:text="Log in"
+        android:textColor="#FFFFFF"
+        android:layout_below="@+id/ivLLogo"/>
+
+    <TextView
+        android:id="@+id/tvLHavingTrouble"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="81dp"
+        android:textSize="15sp"
+        android:layout_below="@+id/ivLLogo"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:text="Having Trouble?"
+        android:textColor="#FFFFFF"
+        />
+
+    <EditText
+        android:id="@+id/etLEmail"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/tvLloginHeading"
+        android:background="@drawable/login_edittext_email"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="15dp"
+        android:hint="Email" />
+
+    <EditText
+        android:id="@+id/etLPassword"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/etLEmail"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:paddingLeft="15dp"
+        android:hint="Password"
+        android:layout_marginTop="1dp"
+        android:inputType="textPassword"
+        android:background="@drawable/login_edittext_password"
+        />
+
+    <Button
+        android:id="@+id/btnLLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etLPassword"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/button_design"
+        android:text="Log In"
+        android:textColor="#FFFFFF"/>
+
+    <TextView
+        android:id="@+id/tvLCreateAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="25dp"
+        android:layout_centerHorizontal="true"
+        android:text="Create an Account"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"/>
+
+
+</RelativeLayout>
