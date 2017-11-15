@@ -1,13 +1,11 @@
 package com.example.base.base;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,17 +13,33 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.widget.TextView;
+
+import com.example.base.base.async.user.GetUserAsync;
+import com.example.base.base.channel.CreateChannelFragment;
+import com.example.base.base.tabs.TabFragment;
+import com.example.base.base.tabs.ThreadTabFragment;
+import com.example.base.base.team.TeamListActivity;
+import com.example.base.base.thread.AllThreadsFragment;
 
 public class NavigationBarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_bar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        new GetUserAsync(NavigationBarActivity.this).execute();
+        /*sharedPreferences = getSharedPreferences("BASE", Context.MODE_PRIVATE);
+        if(sharedPreferences.contains("BaseObject")) {
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("AccessTokenObject", "");
+        AccessTokenSerializable accessTokenSerializable = gson.fromJson(json, AccessTokenSerializable.class);*/
+
 
 
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -45,6 +59,21 @@ public class NavigationBarActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        try {
+            Intent i = getIntent();
+            if (i.getExtras().containsKey("teamName")) {
+                Menu menu = navigationView.getMenu();
+                MenuItem team = menu.findItem(R.id.nav_team);
+                team.setTitle(i.getExtras().getString("teamName"));
+            }
+        }catch (NullPointerException e)
+        {
+            e.printStackTrace();
+        }catch (Exception exception)
+        {
+            exception.printStackTrace();
+        }
 
         /*Menu menu = navigationView.getMenu();
         MenuItem item = menu.add(R.id.nav_channels, R.id.nav_design, 0 , "General");
@@ -106,6 +135,10 @@ public class NavigationBarActivity extends AppCompatActivity
         } else if (id == R.id.nav_design) {
 
             fragment = ThreadTabFragment.newInstance(3,0,"Design");
+        } else if(id == R.id.nav_team) {
+
+            Intent i = new Intent(NavigationBarActivity.this,TeamListActivity.class);
+            startActivity(i);
         }
 
         if (fragment != null) {
@@ -140,5 +173,11 @@ public class NavigationBarActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+    }
+
+    public void setUserName(String userName_value)
+    {
+        TextView userName = (TextView) findViewById(R.id.nav_txtProfileName);
+        userName.setText(userName_value);
     }
 }

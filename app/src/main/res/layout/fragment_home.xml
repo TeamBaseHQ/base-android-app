@@ -30,7 +30,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_below="@+id/ivFhThread"
-        android:src="@drawable/starred"/>
+        android:src="@mipmap/starred"/>
 
     <TextView
         android:id="@+id/tvFhStarred"

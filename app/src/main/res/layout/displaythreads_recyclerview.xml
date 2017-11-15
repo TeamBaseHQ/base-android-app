@@ -6,7 +6,7 @@
         android:id="@+id/tvDtrThreadName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="13sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
 
@@ -25,7 +25,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvDtrThreadName"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="15dp"
+        android:textSize="11sp"/>
 
 
     <de.hdodenhof.circleimageview.CircleImageView

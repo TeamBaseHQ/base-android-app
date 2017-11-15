@@ -3,13 +3,18 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_team"
+            android:icon="@mipmap/add_createchannel"
+            android:title="Teams"
+            />
+        <item
             android:id="@+id/nav_all_threads"
             android:icon="@drawable/ic_menu_camera"
             android:title="All Threads"
             />
         <item
             android:id="@+id/nav_starred"
-            android:icon="@drawable/starred"
+            android:icon="@mipmap/starred"
             android:title="Starred" />
     </group>
 
@@ -18,7 +23,7 @@
         <menu>
             <item
                 android:id="@+id/nav_create_channels"
-                android:icon="@drawable/add_createchannel"
+                android:icon="@mipmap/add_createchannel"
                 android:title="Create Channels"
                 />
             <item
