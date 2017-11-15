@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.base.base.HomeFragment;
+import com.example.base.base.channel.HomeFragment;
 import com.example.base.base.member.PeopleFragment;
 import com.example.base.base.R;
 import com.example.base.base.channel.CreateChannelFragment;

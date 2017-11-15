@@ -1,6 +1,8 @@
 package com.example.base.base.team;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ public class TeamListActivity extends AppCompatActivity {
     private RecyclerView rvAllTeamListRecyclerView;
     private TeamListAdapter teamListAdapter;
     private static List<TeamList> allTeamList = new ArrayList<>();
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +47,6 @@ public class TeamListActivity extends AppCompatActivity {
         });
 
         rvAllTeamListRecyclerView = (RecyclerView) findViewById(R.id.rvTlTeamName);
-        /*threadMemberpic_arraylist.clear();
-        threaChannelColor_arraylist.clear();
-        threadName_arraylist.clear();
-        threadTime_arraylist.clear();
-        threadChannelName_arraylist.clear();*/
         allTeamList.clear();
         teamListAdapter = new TeamListAdapter(allTeamList);
         RecyclerView.LayoutManager rLayoutManager = new LinearLayoutManager(TeamListActivity.this);
@@ -61,9 +59,12 @@ public class TeamListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 TeamList teamList = allTeamList.get(position);
+                sharedPreferences = getApplicationContext().getSharedPreferences("BASE", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("teamSlug", teamList.getTeamSlug());
+                editor.putString("teamName", teamList.getTeamName());
+                editor.commit();
                 Intent i = new Intent(TeamListActivity.this, NavigationBarActivity.class);
-                i.putExtra("teamName",teamList.getTeamName());
-                i.putExtra("teamSlug", teamList.getTeamSlug());
                 startActivity(i);
 
             }
@@ -81,7 +82,7 @@ public class TeamListActivity extends AppCompatActivity {
 
         TeamList teamList = null;
         try{
-            if(teams!=null) {
+            if(!teams.isEmpty()) {
                 for (Team team : teams) {
                     teamList = new TeamList(team.getName(), team.getSlug(), "10+ Unread Messages", R.drawable.devam);
                     this.allTeamList.add(teamList);

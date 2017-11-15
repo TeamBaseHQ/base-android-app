@@ -26,14 +26,6 @@
                 android:icon="@mipmap/add_createchannel"
                 android:title="Create Channels"
                 />
-            <item
-                android:id="@+id/nav_design"
-                android:icon="@drawable/ic_menu_share"
-                android:title="design" />
-            <item
-                android:id="@+id/nav_development"
-                android:icon="@drawable/ic_menu_send"
-                android:title="development" />
         </menu>
     </item>
 

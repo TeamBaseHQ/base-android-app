@@ -1,7 +1,11 @@
 package com.example.base.base;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -11,10 +15,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.base.Models.Channel;
+import com.example.base.base.async.channel.ListChannelAsync;
 import com.example.base.base.async.user.GetUserAsync;
 import com.example.base.base.channel.CreateChannelFragment;
 import com.example.base.base.tabs.TabFragment;
@@ -22,34 +31,23 @@ import com.example.base.base.tabs.ThreadTabFragment;
 import com.example.base.base.team.TeamListActivity;
 import com.example.base.base.thread.AllThreadsFragment;
 
+import java.util.List;
+
 public class NavigationBarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     SharedPreferences sharedPreferences;
+    Menu menu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_bar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        sharedPreferences = getSharedPreferences("BASE", Context.MODE_PRIVATE);
+        toolbar.setTitle(sharedPreferences.getString("teamName","Base"));
         setSupportActionBar(toolbar);
 
         new GetUserAsync(NavigationBarActivity.this).execute();
-        /*sharedPreferences = getSharedPreferences("BASE", Context.MODE_PRIVATE);
-        if(sharedPreferences.contains("BaseObject")) {
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString("AccessTokenObject", "");
-        AccessTokenSerializable accessTokenSerializable = gson.fromJson(json, AccessTokenSerializable.class);*/
-
-
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -60,12 +58,30 @@ public class NavigationBarActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //Set team
         try {
-            Intent i = getIntent();
-            if (i.getExtras().containsKey("teamName")) {
-                Menu menu = navigationView.getMenu();
+            if(sharedPreferences.contains("teamName")) {
+                menu = navigationView.getMenu();
                 MenuItem team = menu.findItem(R.id.nav_team);
-                team.setTitle(i.getExtras().getString("teamName"));
+                team.setTitle(sharedPreferences.getString("teamName",""));
+                //set Channel
+                new ListChannelAsync(sharedPreferences.getString("teamSlug",""),getApplicationContext()){
+                    @Override
+                    protected void onPostExecute(List<Channel> result) {
+                        super.onPostExecute(result);
+                        if(!result.isEmpty()) {
+                            for (Channel channel : result) {
+                                Drawable icon = getResources().getDrawable(R.drawable.ic_stop_black_48dp).mutate();
+                                String colorString = "#".concat(channel.getColor());
+                                int color = getResources().getColor(R.color.amber);
+                                Log.d("COLOR: ", colorString + "  " + color);
+                                icon.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                                menu.add(channel.getName()).setIcon(icon);
+                            }
+                        }
+                    }
+
+                }.execute();
             }
         }catch (NullPointerException e)
         {
@@ -128,17 +144,19 @@ public class NavigationBarActivity extends AppCompatActivity
 
             fragment = TabFragment.newInstance(1);
 
-        } else if (id == R.id.nav_create_channels) {
-
-            fragment = new CreateChannelFragment();
-
-        } else if (id == R.id.nav_design) {
+        }/*else if (id == R.id.nav_design) {
 
             fragment = ThreadTabFragment.newInstance(3,0,"Design");
-        } else if(id == R.id.nav_team) {
+        }*/ else if(id == R.id.nav_team) {
 
             Intent i = new Intent(NavigationBarActivity.this,TeamListActivity.class);
             startActivity(i);
+        }
+        else
+        {
+            /*if(item.getTitle().equals("temp")) {
+                fragment = new CreateChannelFragment();
+            }*/
         }
 
         if (fragment != null) {

@@ -22,8 +22,8 @@ import java.util.List;
 
 public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ChannelHolder>  {
 
-    private List<Channel> channelList;
-    public ChannelAdapter(List<Channel> channelsList) { this.channelList = channelsList;}
+    private List<ChannelItem> channelList;
+    public ChannelAdapter(List<ChannelItem> channelsList) { this.channelList = channelsList;}
     @Override
     public ChannelAdapter.ChannelHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -34,7 +34,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ChannelH
 
     @Override
     public void onBindViewHolder(ChannelAdapter.ChannelHolder holder, int position) {
-        Channel channel = channelList.get(position);
+        ChannelItem channel = channelList.get(position);
         /*LayerDrawable shape = (LayerDrawable) ContextCompat.getDrawable(holder.,R.drawable.rounded_corner);
         GradientDrawable gradientDrawable = (GradientDrawable) shape.findDrawableByLayerId(R.id.shape);*/
         holder.color.setBackgroundResource(R.drawable.rounded_corner);

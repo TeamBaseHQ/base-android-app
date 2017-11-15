@@ -1,6 +1,7 @@
 package com.example.base.base.member;
 
-import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -14,12 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.base.Models.Team;
 import com.base.Models.User;
 import com.example.base.base.R;
 import com.example.base.base.async.member.ListTeamMemberAsync;
 import com.example.base.base.recyclerview_necessarydata.DividerItemDecoration;
-import com.example.base.base.team.TeamList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +29,7 @@ public class PeopleFragment extends Fragment {
     private List<People> peoplesList = new ArrayList<>();
     private RecyclerView rvPeopleRecyclerView;
     private PeopleAdapter peopleAdapter;
+    SharedPreferences sharedPreferences;
 
     @Nullable
     @Override
@@ -47,11 +47,11 @@ public class PeopleFragment extends Fragment {
         //getActivity().setTitle("My Tasks");
 
         //Call Async method too get members
-        Intent i = getActivity().getIntent();
-        if(i.getExtras().containsKey("teamSlug"))
+        sharedPreferences = getContext().getSharedPreferences("BASE", Context.MODE_PRIVATE);
+        if(sharedPreferences.contains("teamSlug"))
         {
             try {
-                new ListTeamMemberAsync(i.getExtras().getString("teamSlug"), getActivity()) {
+                new ListTeamMemberAsync(sharedPreferences.getString("teamSlug",""), getActivity()) {
                     @Override
                     protected void onPostExecute(List<User> result) {
                         super.onPostExecute(result);
@@ -62,7 +62,8 @@ public class PeopleFragment extends Fragment {
                 }.execute();
             }catch (Exception e)
             {
-
+                e.printStackTrace();
+                Toast.makeText(getActivity(), "Select Team", Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -117,7 +118,7 @@ public class PeopleFragment extends Fragment {
 
         People people = null;
         try{
-            if(users!=null) {
+            if(!users.isEmpty()) {
                 for (User user : users) {
                     people = new People(user.getName(), "Product Manager", R.drawable.devam);
                     this. peoplesList.add(people);
@@ -132,54 +133,5 @@ public class PeopleFragment extends Fragment {
             Toast.makeText(getActivity(), "Don't have any team member", Toast.LENGTH_SHORT).show();
         }
     }
-
-    /*private void getTasks(final String email)
-    {
-        StringRequest stringrequest = new StringRequest(Request.Method.POST,urlgettask, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                getTasksDetails(response);
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), "Error :- "+error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> parameters = new HashMap<>();
-                parameters.put("Emailid",email);
-                return parameters;
-            }
-
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        requestQueue.add(stringrequest);
-    }
-
-    private void getTasksDetails(String json){
-        try {
-            JSONObject jsonobject = new JSONObject(json);
-            JSONArray report_jsonarray = jsonobject.getJSONArray("tasks");
-            subject_arraylist.clear();
-            message_arraylist.clear();
-            deadline_arraylist.clear();
-            id_arraylist.clear();
-            for(int i=0;i<report_jsonarray.length();i++) {
-                JSONObject temp = report_jsonarray.getJSONObject(i);
-                subject_arraylist.add(temp.getString("subject"));
-                message_arraylist.add(temp.getString("message"));
-                deadline_arraylist.add(temp.getString("deadline"));
-                id_arraylist.add(temp.getString("id"));
-            }
-            prepareMyTaskData();
-        } catch (JSONException e) {
-            e.printStackTrace();
-            // Toast.makeText(getActivity(), "E :- "+e.toString(), Toast.LENGTH_SHORT).show();
-        }
-    }*/
 
 }

@@ -20,7 +20,7 @@
         android:id="@+id/nav_txtProfileName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Devam Shah"
+        android:text=""
         android:paddingTop="15dp"
         android:paddingLeft="20dp"
         android:layout_toRightOf="@+id/nav_ivProfilePicture"

@@ -54,14 +54,24 @@
         android:textSize="18sp"
         android:text="Name"/>
 
+    <TextView
+        android:id="@+id/tvCcColor"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@+id/tvCcChannelName"
+        />
+
     <EditText
         android:id="@+id/etCcChannelName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_below="@+id/tvCcChannelName"
+        android:layout_toRightOf="@id/tvCcColor"
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="10dp"
         android:background="@drawable/edittext_channelname"
         android:paddingLeft="10dp"
         android:lines="2"
