@@ -18,6 +18,7 @@
         android:layout_marginLeft="20dp"
         android:textStyle="bold"
         android:textSize="18dp"
+        android:textColor="@color/text"
         />
 
     <TextView
@@ -28,6 +29,7 @@
         android:layout_below="@+id/tvTlrTeamName"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/text"/>
 
 </RelativeLayout>

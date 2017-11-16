@@ -97,4 +97,11 @@ public class TeamListActivity extends AppCompatActivity {
             Toast.makeText(this, "You don't have any team", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(TeamListActivity.this,NavigationBarActivity.class);
+        startActivity(i);
+    }
 }

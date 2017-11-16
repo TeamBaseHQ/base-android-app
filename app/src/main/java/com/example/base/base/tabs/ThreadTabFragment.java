@@ -1,32 +1,34 @@
 package com.example.base.base.tabs;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.base.base.R;
 import com.example.base.base.thread.DisplayThreadFragment;
-import com.example.base.base.thread.PersonalMessageFragment;
+import com.example.base.base.personalmessage.PersonalMessageFragment;
 
 
 public class ThreadTabFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private FragmentTabHost mTabHost;
-    private int thread_no,member_no;
-    private String channelName;
+    private int thread_no = 5 ,member_no = 5;
+    private String channelName,channelSlugName;
 
-    public static ThreadTabFragment newInstance (int thread_no,int member_no,String channelName){
+    public static ThreadTabFragment newInstance (String channelSlugName,String channelName){
         Bundle bundle = new Bundle();
-        bundle.putInt("thread_no", thread_no);
-        bundle.putInt("member_no", member_no);
+        bundle.putString("channelSlugName", channelSlugName);
         bundle.putString("channelName", channelName);
 
         ThreadTabFragment fragment = new ThreadTabFragment();
@@ -38,8 +40,7 @@ public class ThreadTabFragment extends Fragment {
 
     private void readBundle(Bundle bundle) {
         if (bundle != null) {
-            this.thread_no = bundle.getInt("thread_no");
-            this.member_no = bundle.getInt("member_no");
+            this.channelSlugName = bundle.getString("channelSlugName");
             this.channelName = bundle.getString("channelName");
         }
     }
@@ -57,13 +58,17 @@ public class ThreadTabFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //you can set the title for your toolbar here for different fragments different titles
-        /*Intent i = new Intent(ViewTaskActivity.this,TabActivityViewTask.class);
-        startActivity(i);*/
 
+        //reading the bundle
         readBundle(getArguments());
 
-        getActivity().setTitle(this.channelName);
+        //setting title of action bar
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(this.channelName);
+
+        Intent i = getActivity().getIntent();
+        i.putExtra("channelSlugName",this.channelSlugName);
+        i.putExtra("channelName",this.channelName);
+        i.putExtra("choice",1);
 
         mTabHost = (FragmentTabHost) view.findViewById(android.R.id.tabhost);
 

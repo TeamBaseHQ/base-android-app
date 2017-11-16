@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/tvCrColor"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:textColor="@color/text"/>
     <ImageView
         android:id="@+id/ivCrNumberOfMessage"
         android:layout_width="30dp"

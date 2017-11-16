@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.example.base.base.R;
 import com.example.base.base.thread.DisplayThreadFragment;
-import com.example.base.base.thread.PersonalMessageFragment;
+import com.example.base.base.personalmessage.PersonalMessageFragment;
 
 
 public class ThreadMessageTabFragment extends Fragment {

@@ -12,7 +12,8 @@ import com.example.base.base.channel.HomeFragment;
 import com.example.base.base.member.PeopleFragment;
 import com.example.base.base.R;
 import com.example.base.base.channel.CreateChannelFragment;
-import com.example.base.base.thread.PersonalMessageFragment;
+import com.example.base.base.personalmessage.PersonalMessageFragment;
+import com.example.base.base.thread.ThreadFragment;
 
 
 public class TabFragment extends Fragment {
@@ -52,7 +53,6 @@ public class TabFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
-        getActivity().setTitle("Amazon");
         /*Intent i = new Intent(ViewTaskActivity.this,TabActivityViewTask.class);
         startActivity(i);*/
 
@@ -70,6 +70,11 @@ public class TabFragment extends Fragment {
         {
             mTabHost.addTab(mTabHost.newTabSpec("Home").setIndicator("", getResources().getDrawable(R.mipmap.home)),
                     CreateChannelFragment.class, null);
+        }
+        else if(choice==2)
+        {
+            mTabHost.addTab(mTabHost.newTabSpec("Home").setIndicator("", getResources().getDrawable(R.mipmap.home)),
+                    ThreadFragment.class, null);
         }
         else
         {

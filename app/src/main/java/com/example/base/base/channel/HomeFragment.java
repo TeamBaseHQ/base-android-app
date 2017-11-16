@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +19,8 @@ import com.example.base.base.R;
 import com.example.base.base.async.channel.ListChannelAsync;
 
 import com.base.Models.Channel;
+import com.example.base.base.recyclerview_necessarydata.RecyclerTouchListener;
+import com.example.base.base.tabs.ThreadTabFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +51,6 @@ public class HomeFragment extends Fragment {
 
         //references
         rvHomeRecyclerView = (RecyclerView) view.findViewById(R.id.rvFhHomeChannel);
-
         channelsList.clear();
         channelAdapter = new ChannelAdapter(channelsList);
         RecyclerView.LayoutManager rLayoutManager = new LinearLayoutManager(getActivity());
@@ -68,29 +71,24 @@ public class HomeFragment extends Fragment {
 
             }.execute();
         }
-        /*rvMyTaskRecyclerView.addOnItemTouchListener(new LeaveTouchListener(getActivity(), rvMyTaskRecyclerView, new LeaveTouchListener.ClickListener() {
+        rvHomeRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), rvHomeRecyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                MyTask myTask = myTasksList.get(position);
-                Intent i = getActivity().getIntent();
-                i.putExtra("mytasksubject", myTask.getTaskSubject());
-                i.putExtra("mytaskmessage", myTask.getMessage());
-                i.putExtra("mytaskdeadline", myTask.getDeadline());
-                i.putExtra("mytaskstatus", myTask.getStatus());
-                i.putExtra("mytaskid", myTask.getId());
-                i.putExtra("mytaskbutton", "Edit");
+                ChannelItem channelItem = channelsList.get(position);
+                Fragment fragment = ThreadTabFragment.newInstance(channelItem.getChannelSlug(),channelItem.getChannelName());
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.FlEmployeeHome,new TaskDetailActivity());
+                transaction.replace(R.id.FlContentNavigation,fragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
+
             }
 
             @Override
             public void onLongClick(View view, int position) {
-                MyTask myTask = myTasksList.get(position);
+                ChannelItem channelItem = channelsList.get(position);
             }
-        }));*/
+        }));
 
     }
 

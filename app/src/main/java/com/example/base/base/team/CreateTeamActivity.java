@@ -61,4 +61,11 @@ public class CreateTeamActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(CreateTeamActivity.this,TeamListActivity.class);
+        startActivity(i);
+    }
 }

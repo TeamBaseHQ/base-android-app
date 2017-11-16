@@ -31,13 +31,17 @@ import com.example.base.base.tabs.ThreadTabFragment;
 import com.example.base.base.team.TeamListActivity;
 import com.example.base.base.thread.AllThreadsFragment;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class NavigationBarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     SharedPreferences sharedPreferences;
     Menu menu;
+    HashMap<String,String> channelName_list = new HashMap<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,9 +64,13 @@ public class NavigationBarActivity extends AppCompatActivity
 
         //Set team
         try {
+            menu = navigationView.getMenu();
             if(sharedPreferences.contains("teamName")) {
-                menu = navigationView.getMenu();
                 MenuItem team = menu.findItem(R.id.nav_team);
+                MenuItem nav_create_channel = menu.findItem(R.id.nav_create_channels);
+                MenuItem nav_channel = menu.findItem(R.id.nav_channels);
+                nav_create_channel.setVisible(true);
+                nav_channel.setVisible(true);
                 team.setTitle(sharedPreferences.getString("teamName",""));
                 //set Channel
                 new ListChannelAsync(sharedPreferences.getString("teamSlug",""),getApplicationContext()){
@@ -77,11 +85,18 @@ public class NavigationBarActivity extends AppCompatActivity
                                 Log.d("COLOR: ", colorString + "  " + color);
                                 icon.setColorFilter(color, PorterDuff.Mode.SRC_IN);
                                 menu.add(channel.getName()).setIcon(icon);
+                                channelName_list.put(channel.getSlug(),channel.getName());
                             }
                         }
                     }
 
                 }.execute();
+            }
+            else{
+                MenuItem nav_create_channel = menu.findItem(R.id.nav_create_channels);
+                MenuItem nav_channel = menu.findItem(R.id.nav_channels);
+                nav_create_channel.setVisible(false);
+                nav_channel.setVisible(false);
             }
         }catch (NullPointerException e)
         {
@@ -144,19 +159,21 @@ public class NavigationBarActivity extends AppCompatActivity
 
             fragment = TabFragment.newInstance(1);
 
-        }/*else if (id == R.id.nav_design) {
-
-            fragment = ThreadTabFragment.newInstance(3,0,"Design");
-        }*/ else if(id == R.id.nav_team) {
+        }else if(id == R.id.nav_team) {
 
             Intent i = new Intent(NavigationBarActivity.this,TeamListActivity.class);
             startActivity(i);
         }
         else
         {
-            /*if(item.getTitle().equals("temp")) {
-                fragment = new CreateChannelFragment();
-            }*/
+            if(channelName_list.containsValue(item.getTitle())){
+                for (HashMap.Entry<String,String> entry: channelName_list.entrySet()) {
+                    if(entry.getValue()==item.getTitle()) {
+                        fragment = ThreadTabFragment.newInstance(entry.getKey(),entry.getValue());
+                    }
+                }
+                //
+            }
         }
 
         if (fragment != null) {

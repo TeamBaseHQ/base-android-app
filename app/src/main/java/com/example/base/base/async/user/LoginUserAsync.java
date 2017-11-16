@@ -11,6 +11,7 @@ import com.base.Auth.AccessToken;
 import com.base.Base;
 import com.base.Exceptions.BaseException;
 import com.example.base.base.singleton.BaseManager;
+import com.example.base.base.team.TeamListActivity;
 import com.example.base.base.user.LoginActivity;
 import com.example.base.base.NavigationBarActivity;
 import com.example.base.base.serializ.AccessTokenSerializable;
@@ -76,7 +77,15 @@ public class LoginUserAsync extends AsyncTask<String, Void, String> {
         else if(result.contains("Login Successful"))
         {
             Toast.makeText(context, "Login Successful", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(context, NavigationBarActivity.class);
+            sharedPreferences = context.getSharedPreferences("BASE", Context.MODE_PRIVATE);
+            Intent i;
+            if(sharedPreferences.contains("teamSlug")) {
+                i = new Intent(context, NavigationBarActivity.class);
+            }
+            else
+            {
+                i = new Intent(context, TeamListActivity.class);
+            }
             context.startActivity(i);
             context.finish();
         }

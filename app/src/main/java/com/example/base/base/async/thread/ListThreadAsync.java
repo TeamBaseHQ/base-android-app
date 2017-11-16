@@ -1,58 +1,58 @@
-package com.example.base.base.async.channel;
+package com.example.base.base.async.thread;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import com.base.Base;
 import com.base.Exceptions.BaseHttpException;
-import com.base.Exceptions.TeamNotFound;
-import com.base.Models.Channel;
-import com.base.Models.User;
-import com.example.base.base.async.member.ListTeamMemberAsync;
+import com.base.Exceptions.ChannelNotFound;
+import com.base.Models.Thread;
 import com.example.base.base.singleton.BaseManager;
 
 import java.util.List;
 
 /**
- * Created by Devam on 15-Nov-17.
+ * Created by Devam on 16-Nov-17.
  */
 
-public class ListChannelAsync extends AsyncTask<String, Void, List<Channel>> {
+public class ListThreadAsync extends AsyncTask<String, Void, List<Thread>> {
 
     private static Base base;
-    private String slug;
+    private String channelSlug,teamSlug;
     ProgressDialog pb;
     Context context;
+    SharedPreferences sharedPreferences;
     //static List<User> users;
 
-    public ListChannelAsync(String slug,Context context){
+    public ListThreadAsync(String teamSlug,String channelSlug,Context context){
         this.context = context;
-        this.slug = slug;
-        ListChannelAsync.base = BaseManager.getInstance(context);
+        this.channelSlug = channelSlug;
+        this.teamSlug = teamSlug;
+        ListThreadAsync.base = BaseManager.getInstance(context);
     }
 
     @Override
-    protected List<Channel> doInBackground(String... params) {
+    protected List<Thread> doInBackground(String... params) {
         //requestHTTP(data);
         try {
+            sharedPreferences = context.getSharedPreferences("BASE",Context.MODE_PRIVATE);
 
-            List<Channel> channel = ListChannelAsync.base.channelService().getAllChannels(this.slug);
-            return channel;
+            List<Thread> threads = ListThreadAsync.base.threadService().getAllChannelThreads(this.teamSlug, this.channelSlug);
+            return threads;
 
         } catch (BaseHttpException e) {
             e.printStackTrace();
             return null;
-        } catch (TeamNotFound teamNotFound) {
-            teamNotFound.printStackTrace();
-            return null;
+        } catch (ChannelNotFound channelNotFound) {
+            channelNotFound.printStackTrace();
+            return  null;
         }
     }
 
     @Override
-    protected void onPostExecute(List<Channel> result) {
+    protected void onPostExecute(List<Thread> result) {
         pb.dismiss();
     }
 
@@ -78,4 +78,3 @@ public class ListChannelAsync extends AsyncTask<String, Void, List<Channel>> {
         pb.show();
     }
 }
-

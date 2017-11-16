@@ -2,57 +2,55 @@ package com.example.base.base.async.channel;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import com.base.Base;
 import com.base.Exceptions.BaseHttpException;
+import com.base.Exceptions.ChannelNotFound;
 import com.base.Exceptions.TeamNotFound;
-import com.base.Models.Channel;
 import com.base.Models.User;
-import com.example.base.base.async.member.ListTeamMemberAsync;
 import com.example.base.base.singleton.BaseManager;
 
 import java.util.List;
 
 /**
- * Created by Devam on 15-Nov-17.
+ * Created by Devam on 16-Nov-17.
  */
 
-public class ListChannelAsync extends AsyncTask<String, Void, List<Channel>> {
+public class ListChannelMemberNameAsync extends AsyncTask<String, Void, List<User>> {
 
     private static Base base;
-    private String slug;
+    private String teamSlug,channelSlug;
     ProgressDialog pb;
     Context context;
     //static List<User> users;
 
-    public ListChannelAsync(String slug,Context context){
+    public ListChannelMemberNameAsync(String teamSlug, String channelSlug, Context context){
         this.context = context;
-        this.slug = slug;
-        ListChannelAsync.base = BaseManager.getInstance(context);
+        this.channelSlug = channelSlug;
+        this.teamSlug = teamSlug;
+        ListChannelMemberNameAsync.base = BaseManager.getInstance(context);
     }
 
     @Override
-    protected List<Channel> doInBackground(String... params) {
+    protected List<User> doInBackground(String... params) {
         //requestHTTP(data);
         try {
 
-            List<Channel> channel = ListChannelAsync.base.channelService().getAllChannels(this.slug);
-            return channel;
+            List<User> users = ListChannelMemberNameAsync.base.channelMemberService().getAllChannelMembers(teamSlug, channelSlug);
+            return users;
 
         } catch (BaseHttpException e) {
             e.printStackTrace();
             return null;
-        } catch (TeamNotFound teamNotFound) {
-            teamNotFound.printStackTrace();
+        }catch (ChannelNotFound channelNotFound) {
+            channelNotFound.printStackTrace();
             return null;
         }
     }
 
     @Override
-    protected void onPostExecute(List<Channel> result) {
+    protected void onPostExecute(List<User> result) {
         pb.dismiss();
     }
 
@@ -60,7 +58,7 @@ public class ListChannelAsync extends AsyncTask<String, Void, List<Channel>> {
     protected void onPreExecute() {
         pb = new ProgressDialog(this.context);
         pb.setCancelable(false);
-        pb.setMessage("Fetching Channels...");
+        pb.setMessage("Fetching Channel Members...");
         pb.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         pb.setProgress(0);
         pb.setMax(100);
@@ -78,4 +76,3 @@ public class ListChannelAsync extends AsyncTask<String, Void, List<Channel>> {
         pb.show();
     }
 }
-

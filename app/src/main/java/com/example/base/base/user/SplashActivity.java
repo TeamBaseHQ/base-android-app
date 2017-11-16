@@ -10,8 +10,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.base.Models.Team;
 import com.example.base.base.NavigationBarActivity;
 import com.example.base.base.R;
+import com.example.base.base.team.TeamList;
+import com.example.base.base.team.TeamListActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -49,7 +52,11 @@ public class SplashActivity extends AppCompatActivity {
                     Thread.sleep(1500);
                     Intent i;
                     if(sharedpreferences.contains("AccessTokenObject")) {
-                        i = new Intent(SplashActivity.this,NavigationBarActivity.class);
+                        if(sharedpreferences.contains("teamSlug")) {
+                            i = new Intent(SplashActivity.this, NavigationBarActivity.class);
+                        }else{
+                            i = new Intent(SplashActivity.this, TeamListActivity.class);
+                        }
                     }
                     else {
                         i = new Intent(SplashActivity.this, LoginActivity.class);

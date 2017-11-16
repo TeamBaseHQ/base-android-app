@@ -3,6 +3,7 @@ package com.example.base.base.thread;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,8 +43,8 @@ public class AllThreadsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //you can set the title for your toolbar here for different fragments different titles
-        getActivity().setTitle("All Threads");
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("All Threads");//you can set the title for your toolbar here for different fragments different titles
 
         //references
         rvAllThreadRecyclerView = (RecyclerView) view.findViewById(R.id.rvFatThreads);

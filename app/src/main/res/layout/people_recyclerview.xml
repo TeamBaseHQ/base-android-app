@@ -17,6 +17,7 @@
         android:textStyle="bold"
         android:textSize="18sp"
         android:layout_toRightOf="@+id/ivPrPeoplePic"
+        android:textColor="@color/text"
         />
 
     <TextView
@@ -27,7 +28,8 @@
         android:layout_marginLeft="20dp"
         android:layout_toRightOf="@id/ivPrPeoplePic"
         android:layout_below="@+id/tvPrPeopleName"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/text"/>
 
 
 </RelativeLayout>

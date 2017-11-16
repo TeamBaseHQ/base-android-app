@@ -13,17 +13,69 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_above="@+id/input"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:background="#d3d3d3"/>
+        android:layout_above="@+id/llMLinearlayout"
+        android:background="#d3d3d3"
+        android:layout_marginBottom="5dp"/>
 
-    <com.stfalcon.chatkit.messages.MessageInput
-        android:id="@+id/input"
+    <LinearLayout
+        android:id="@+id/llMLinearlayout"
+        android:layout_above="@+id/input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+
+        <ImageView
+            android:id="@+id/ivMFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:src="@drawable/insert_file"/>
+
+        <ImageView
+            android:id="@+id/ivMPersonPin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:src="@drawable/person_pin"/>
+
+        <ImageView
+            android:id="@+id/ivMPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:src="@drawable/photo"/>
+
+        <ImageView
+            android:id="@+id/ivMMic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:src="@drawable/mic"/>
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/input"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
-        inputHint="@string/hint_enter_a_message"
-        showAttachmentButton="true"/>
+        android:hint="@string/hint_enter_a_message"
+        android:background="@android:color/transparent"
+        android:drawableRight="@drawable/ic_menu_send"
+        android:layout_marginBottom="20dp"
+        android:paddingLeft="10dp"/>
 
 </RelativeLayout>
+
+<!--<com.stfalcon.chatkit.messages.MessageInput
+android:id="@+id/input"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_alignParentBottom="true"
+inputHint="@string/hint_enter_a_message"
+showAttachmentButton="true"/>-->
