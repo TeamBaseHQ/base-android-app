@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +20,10 @@ import android.widget.Toast;
 import com.base.Models.Thread;
 import com.example.base.base.R;
 import com.example.base.base.async.thread.ListThreadAsync;
+import com.example.base.base.message_format.MessageFragment;
+import com.example.base.base.personalmessage.PersonalMessage;
 import com.example.base.base.recyclerview_necessarydata.DividerItemDecoration;
+import com.example.base.base.recyclerview_necessarydata.RecyclerTouchListener;
 import com.example.base.base.tabs.TabFragment;
 
 import java.util.ArrayList;
@@ -31,6 +36,7 @@ public class DisplayThreadFragment extends Fragment {
     private RecyclerView rvDisplayThreadRecyclerView;
     private DisplayThreadAdapter DisplayThreadAdapter;
     SharedPreferences sharedPreferences;
+    String teamSlug,channelSlug;
 
     @Nullable
     @Override
@@ -72,20 +78,42 @@ public class DisplayThreadFragment extends Fragment {
         rvDisplayThreadRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         rvDisplayThreadRecyclerView.setAdapter(DisplayThreadAdapter);
 
+        rvDisplayThreadRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), rvDisplayThreadRecyclerView, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                DisplayThread displayThread = displayThreadsList.get(position);
+                Intent i = getActivity().getIntent();
+                i.putExtra("MessageTitleName", displayThread.getThreadName());
+                i.putExtra("threadSlug",displayThread.getThreadSlug());
+                i.putExtra("channelSlug",displayThread.getChannelSlug());
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.FlContentNavigation,new MessageFragment());
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+                DisplayThread displayThread = displayThreadsList.get(position);
+            }
+        }));
+
         sharedPreferences = getActivity().getSharedPreferences("BASE", Context.MODE_PRIVATE);
 
         Intent i = getActivity().getIntent();
         if(i.getExtras().containsKey("channelSlugName"))
         {
+            this.channelSlug = i.getExtras().getString("channelSlugName");
             if(sharedPreferences.contains("teamSlug"))
             {
-                new ListThreadAsync(sharedPreferences.getString("teamSlug",""),i.getExtras().getString("channelSlugName"),getActivity())
+                this.teamSlug = sharedPreferences.getString("teamSlug","");
+                new ListThreadAsync(this.teamSlug,this.channelSlug,getActivity())
                 {
                     @Override
                     protected void onPostExecute(List<Thread> result) {
                         super.onPostExecute(result);
                         prepareMyTaskData(result);
-
                     }
                 }.execute();
             }
@@ -98,34 +126,6 @@ public class DisplayThreadFragment extends Fragment {
         {
             Toast.makeText(getActivity(), "Select Channel", Toast.LENGTH_SHORT).show();
         }
-        /*rvDisplayThreadRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), rvDisplayThreadRecyclerView, new RecyclerTouchListener.ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                DisplayThread displayThread = displayThreadsList.get(position);
-                /*Intent i = getActivity().getIntent();
-                i.putExtra("mytasksubject", myTask.getTaskSubject());
-                i.putExtra("mytaskmessage", myTask.getMessage());
-                i.putExtra("mytaskdeadline", myTask.getDeadline());
-                i.putExtra("mytaskstatus", myTask.getStatus());
-                i.putExtra("mytaskid", myTask.getId());
-                i.putExtra("mytaskbutton", "Edit");
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.FlContentNavigation, ThreadMessageTabFragment.newInstance(displayThread.getThreadName()));
-                transaction.addToBackStack(null);
-                transaction.commit();
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-
-           /* @Override
-            public void onLongClick(View view, int position) {
-                MyTask myTask = myTasksList.get(position);
-            }
-        }));*/
     }
 
     private void prepareMyTaskData(List<Thread> threads) {
@@ -133,7 +133,7 @@ public class DisplayThreadFragment extends Fragment {
         DisplayThread displayThread = null;
         if(!threads.isEmpty()) {
             for (Thread thread : threads) {
-                displayThread = new DisplayThread(thread.getSubject(), "2m", "Kunal: Yeah.", R.drawable.devam);
+                displayThread = new DisplayThread(this.channelSlug,thread.getSlug(),thread.getSubject(), "2m", "Kunal: Yeah.", R.drawable.devam);
                 displayThreadsList.add(displayThread);
             }
             DisplayThreadAdapter.notifyDataSetChanged();

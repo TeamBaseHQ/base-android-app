@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -25,6 +26,7 @@ import com.example.base.base.recyclerview_necessarydata.DividerItemDecoration;
 import com.example.base.base.recyclerview_necessarydata.RecyclerTouchListener;
 import com.example.base.base.personalmessage.PersonalMessage;
 import com.example.base.base.personalmessage.PersonalMessageAdapter;
+import com.example.base.base.tabs.TabFragment;
 import com.example.base.base.tabs.ThreadTabFragment;
 
 import java.util.ArrayList;
@@ -37,6 +39,8 @@ public class PersonalMessageFragment extends Fragment {
     private RecyclerView rvPersonalMessageRecyclerView;
     private PersonalMessageAdapter personalMessageAdapter;
     SharedPreferences sharedPreferences;
+    FloatingActionButton floatingActionButton;
+    private int choice=0;
 
     @Nullable
     @Override
@@ -50,10 +54,42 @@ public class PersonalMessageFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //you can set the title for your toolbar here for different fragments different titles
-        //getActivity().setTitle("My Tasks");
+
         //references
         rvPersonalMessageRecyclerView = (RecyclerView) view.findViewById(R.id.rvPmPersonalMessage);
+        floatingActionButton = view.findViewById(R.id.fabPmAdd);
+
+        Intent i = getActivity().getIntent();
+        try {
+            if (i.getExtras().containsKey("flag")) {
+                this.choice = i.getExtras().getInt("flag");
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+        if(choice == 1)
+        {
+            floatingActionButton.setVisibility(View.VISIBLE);
+            /*floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Fragment fragment = null;
+                    fragment = TabFragment.newInstance(2);
+                    if (fragment != null) {
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.FlContentNavigation, fragment,"findThisFragment")
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                }
+            });*/
+        }
+        else if(choice==2)
+        {
+            floatingActionButton.setVisibility(View.INVISIBLE);
+        }
 
         personalMessagesList.clear();
         personalMessageAdapter = new PersonalMessageAdapter(personalMessagesList);
@@ -64,9 +100,8 @@ public class PersonalMessageFragment extends Fragment {
         rvPersonalMessageRecyclerView.setAdapter(personalMessageAdapter);
 
         try {
-            Intent i = getActivity().getIntent();
-            if (i.getExtras().containsKey("choice") && i.getExtras().containsKey("channelSlugName")) {
-                if (i.getExtras().getInt("choice") == 1) {
+            if (i.getExtras().containsKey("flag") && i.getExtras().containsKey("channelSlugName")) {
+                if (this.choice == 1) {
                     sharedPreferences = getActivity().getSharedPreferences("BASE", Context.MODE_PRIVATE);
                     new ListChannelMemberNameAsync(sharedPreferences.getString("teamSlug", ""), i.getExtras().getString("channelSlugName"), getActivity()) {
                         @Override
@@ -76,7 +111,7 @@ public class PersonalMessageFragment extends Fragment {
 
                     }.execute();
                 }
-                else
+                else if(choice==2)
                 {
                     ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Personal Message");
                 }
@@ -88,19 +123,16 @@ public class PersonalMessageFragment extends Fragment {
         rvPersonalMessageRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), rvPersonalMessageRecyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                PersonalMessage personalMessage = personalMessagesList.get(position);
-                Intent i = getActivity().getIntent();
-                i.putExtra("personalmessageMemberName", personalMessage.getMemberName());
-                /*i.putExtra("mytaskmessage", myTask.getMessage());
-                i.putExtra("mytaskdeadline", myTask.getDeadline());
-                i.putExtra("mytaskstatus", myTask.getStatus());
-                i.putExtra("mytaskid", myTask.getId());
-                i.putExtra("mytaskbutton", "Edit");*/
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.FlContentNavigation,new MessageFragment());
-                transaction.addToBackStack(null);
-                transaction.commit();
+                if(choice==2) {
+                    PersonalMessage personalMessage = personalMessagesList.get(position);
+                    Intent i = getActivity().getIntent();
+                    i.putExtra("MessageTitleName", personalMessage.getMemberName());
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.replace(R.id.FlContentNavigation, new MessageFragment());
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
             }
 
             @Override

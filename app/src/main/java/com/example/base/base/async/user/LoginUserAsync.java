@@ -34,7 +34,7 @@ public class LoginUserAsync extends AsyncTask<String, Void, String> {
         this.password = password;
         this.context = context;
 
-        LoginUserAsync.base = BaseManager.getInstance(context);
+        LoginUserAsync.base = BaseManager.getInstance(context,true);
     }
 
     @Override
@@ -58,11 +58,13 @@ public class LoginUserAsync extends AsyncTask<String, Void, String> {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("AccessTokenObject", json);
             editor.commit();
+            return "Login Successful";
 
         } catch (BaseException e) {
             e.printStackTrace();
+            return "Error :- "+e.getMessage();
         }
-        return "Login Successful";
+
     }
 
 
@@ -72,11 +74,10 @@ public class LoginUserAsync extends AsyncTask<String, Void, String> {
 
         if(result.contains("Error"))
         {
-            Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Incorrect Credentials", Toast.LENGTH_SHORT).show();
         }
         else if(result.contains("Login Successful"))
         {
-            Toast.makeText(context, "Login Successful", Toast.LENGTH_SHORT).show();
             sharedPreferences = context.getSharedPreferences("BASE", Context.MODE_PRIVATE);
             Intent i;
             if(sharedPreferences.contains("teamSlug")) {

@@ -1,5 +1,6 @@
 package com.example.base.base.tabs;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -53,8 +54,8 @@ public class TabFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
-        /*Intent i = new Intent(ViewTaskActivity.this,TabActivityViewTask.class);
-        startActivity(i);*/
+        Intent i = getActivity().getIntent();
+        i.putExtra("flag",2);
 
         //For Spinner handling
         readBundle(getArguments());

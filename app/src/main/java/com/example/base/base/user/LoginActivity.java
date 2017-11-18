@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(email_value.length()!=0 && password_value.length()!=0)
                 {
                         new LoginUserAsync(email_value,password_value,LoginActivity.this).execute();
-                        BaseManager.getInstance(LoginActivity.this);
+                        //BaseManager.getInstance(LoginActivity.this);
                 }
                 else
                 {

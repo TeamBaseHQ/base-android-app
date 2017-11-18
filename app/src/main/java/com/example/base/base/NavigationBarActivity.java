@@ -77,16 +77,21 @@ public class NavigationBarActivity extends AppCompatActivity
                     @Override
                     protected void onPostExecute(List<Channel> result) {
                         super.onPostExecute(result);
-                        if(!result.isEmpty()) {
-                            for (Channel channel : result) {
-                                Drawable icon = getResources().getDrawable(R.drawable.ic_stop_black_48dp).mutate();
-                                String colorString = "#".concat(channel.getColor());
-                                int color = getResources().getColor(R.color.amber);
-                                Log.d("COLOR: ", colorString + "  " + color);
-                                icon.setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                                menu.add(channel.getName()).setIcon(icon);
-                                channelName_list.put(channel.getSlug(),channel.getName());
+                        try {
+                            if (!result.isEmpty()) {
+                                for (Channel channel : result) {
+                                    Drawable icon = getResources().getDrawable(R.drawable.ic_stop_black_48dp).mutate();
+                                    String colorString = "#".concat(channel.getColor());
+                                    int color = getResources().getColor(R.color.amber);
+                                    Log.d("COLOR: ", colorString + "  " + color);
+                                    icon.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                                    menu.add(channel.getName()).setIcon(icon);
+                                    channelName_list.put(channel.getSlug(), channel.getName());
+                                }
                             }
+                        }catch(Exception e)
+                        {
+                            Toast.makeText(NavigationBarActivity.this, "Channel Not Found", Toast.LENGTH_SHORT).show();
                         }
                     }
 

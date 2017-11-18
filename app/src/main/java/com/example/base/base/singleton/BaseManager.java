@@ -24,28 +24,35 @@ public class BaseManager{
 
     private BaseManager(){}
 
-    public static Base getInstance(Context context){
+    public static  Base getInstance(Context context, Boolean ignoreCheck){
         // No instance created
         if(BaseManager.base == null)
         {
             BaseClient baseClient = new BaseClient();
-            baseClient.setClientId("1").setClientSecret("eyIzeSButivrkHGc1PAfU4IBclYONeRy73eZvi1b");
+            baseClient.setClientId("1").setClientSecret("jGjyBcjBZTdTxydacXGtLr6rLRsUq7yEoxNI4psr")
+                    .setApiUrl("https://platform.baseapp.in/api");
             BaseManager.base = new Base(baseClient);
         }
 
         // Get the Access Token from SharedPreferences
         AccessToken accessToken = BaseManager.getAccessTokenFromSharedPreference(context);
 
-        // Log user out
-        if (accessToken == null) {
-            BaseManager.logUserOut(context);
-        } else {
-            // Set the AccessToken
-            base.getClient().setAccessToken(accessToken);
+        if(!ignoreCheck) {
+            // Log user out
+            if (accessToken == null) {
+                BaseManager.logUserOut(context);
+            } else {
+                // Set the AccessToken
+                base.getClient().setAccessToken(accessToken);
+            }
         }
 
         // Return the base object
         return base;
+    }
+
+    public static Base getInstance(Context context){
+        return getInstance(context,false);
     }
 
     @Nullable

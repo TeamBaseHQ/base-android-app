@@ -2,15 +2,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.base.base.message_format.MessageFragment">
 
     <com.stfalcon.chatkit.messages.MessagesList
         android:id="@+id/messagesList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/input"/>
+        android:layout_above="@+id/vMview"
+        android:layout_marginBottom="10dp"/>
 
     <View
+        android:id="@+id/vMview"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_above="@+id/llMLinearlayout"
@@ -59,23 +62,21 @@
 
     </LinearLayout>
 
-    <EditText
+    <com.stfalcon.chatkit.messages.MessageInput
         android:id="@+id/input"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:hint="@string/hint_enter_a_message"
-        android:background="@android:color/transparent"
-        android:drawableRight="@drawable/ic_menu_send"
-        android:layout_marginBottom="20dp"
-        android:paddingLeft="10dp"/>
+        app:attachmentButtonDefaultIconColor="@color/green"
+        app:attachmentButtonDefaultIconPressedColor="@color/green"
+        app:inputButtonHeight="30dp"
+        app:inputButtonIcon="@drawable/ic_send"
+        app:inputButtonMargin="16dp"
+        app:inputButtonWidth="30dp"
+        app:inputMaxLines="3"
+        app:inputTextColor="@color/black"
+        app:inputTextSize="18sp"
+        app:inputHint="@string/hint_enter_a_message" />
+
 
 </RelativeLayout>
-
-<!--<com.stfalcon.chatkit.messages.MessageInput
-android:id="@+id/input"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_alignParentBottom="true"
-inputHint="@string/hint_enter_a_message"
-showAttachmentButton="true"/>-->

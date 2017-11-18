@@ -23,7 +23,7 @@ public class ThreadTabFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private FragmentTabHost mTabHost;
-    private int thread_no = 5 ,member_no = 5;
+    //private int thread_no = 5 ,member_no = 5;
     private String channelName,channelSlugName;
 
     public static ThreadTabFragment newInstance (String channelSlugName,String channelName){
@@ -68,16 +68,16 @@ public class ThreadTabFragment extends Fragment {
         Intent i = getActivity().getIntent();
         i.putExtra("channelSlugName",this.channelSlugName);
         i.putExtra("channelName",this.channelName);
-        i.putExtra("choice",1);
+        i.putExtra("flag",1);
 
         mTabHost = (FragmentTabHost) view.findViewById(android.R.id.tabhost);
 
         mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.FlThreadTab);
 
-        mTabHost.addTab(mTabHost.newTabSpec("Threads").setIndicator(this.thread_no+" Threads"),
+        mTabHost.addTab(mTabHost.newTabSpec("Threads").setIndicator("Threads"),
                     DisplayThreadFragment.class, null);
 
-        mTabHost.addTab(mTabHost.newTabSpec("Members").setIndicator(this.member_no+" members"),
+        mTabHost.addTab(mTabHost.newTabSpec("Members").setIndicator("Members"),
                 PersonalMessageFragment.class, null);
 
         mTabHost.setCurrentTab(0);
