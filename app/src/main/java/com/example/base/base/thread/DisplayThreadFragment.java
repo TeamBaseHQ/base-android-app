@@ -25,6 +25,7 @@ import com.example.base.base.personalmessage.PersonalMessage;
 import com.example.base.base.recyclerview_necessarydata.DividerItemDecoration;
 import com.example.base.base.recyclerview_necessarydata.RecyclerTouchListener;
 import com.example.base.base.tabs.TabFragment;
+import com.example.base.base.tabs.ThreadMessageTabFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,13 +83,11 @@ public class DisplayThreadFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 DisplayThread displayThread = displayThreadsList.get(position);
-                Intent i = getActivity().getIntent();
-                i.putExtra("MessageTitleName", displayThread.getThreadName());
-                i.putExtra("threadSlug",displayThread.getThreadSlug());
-                i.putExtra("channelSlug",displayThread.getChannelSlug());
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.FlContentNavigation,new MessageFragment());
+                transaction.replace(R.id.FlContentNavigation,ThreadMessageTabFragment
+                        .newInstance(displayThread.getThreadName(),displayThread.getThreadSlug(),
+                                displayThread.getChannelSlug()),"DisplayThread");
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
@@ -130,6 +129,7 @@ public class DisplayThreadFragment extends Fragment {
 
     private void prepareMyTaskData(List<Thread> threads) {
 
+        this.displayThreadsList.clear();
         DisplayThread displayThread = null;
         if(!threads.isEmpty()) {
             for (Thread thread : threads) {

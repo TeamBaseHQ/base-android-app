@@ -1,11 +1,17 @@
 package com.example.base.base.chat;
 
+import android.util.Log;
+
 import com.base.Models.Message;
 import com.base.Models.User;
 import com.stfalcon.chatkit.commons.models.IMessage;
 import com.stfalcon.chatkit.commons.models.IUser;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by Devam on 18-Nov-17.
@@ -41,6 +47,17 @@ public class ChatMessage implements IMessage {
 
     @Override
     public Date getCreatedAt() {
-        return this.message.getCreated_at();
+        SimpleDateFormat sdf = new SimpleDateFormat("y-M-d H:m:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
+        Date date = this.message.getCreated_at();
+        try {
+            Date newDate = sdf.parse(sdf.format(date));
+            Log.d("Date: ", newDate.toString());
+            return newDate;
+        } catch (ParseException e) {
+            Log.d("AAAAAA", e.getMessage());
+        }
+
+        return date;
     }
 }

@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.base.Models.Team;
 import com.example.base.base.NavigationBarActivity;
+import com.example.base.base.channel.ChannelItem;
+import com.example.base.base.handler.ChannelMessageHandler;
 import com.example.base.base.recyclerview_necessarydata.DividerItemDecoration;
 import com.example.base.base.R;
 import com.example.base.base.async.team.ListTeamAsync;
@@ -23,12 +25,17 @@ import com.example.base.base.recyclerview_necessarydata.RecyclerTouchListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.pusher.client.Pusher;
+import com.pusher.client.PusherOptions;
+import com.pusher.client.channel.Channel;
+import com.pusher.client.channel.SubscriptionEventListener;
+
 public class TeamListActivity extends AppCompatActivity {
 
     FloatingActionButton fab;
     private RecyclerView rvAllTeamListRecyclerView;
     private TeamListAdapter teamListAdapter;
-    private static List<TeamList> allTeamList = new ArrayList<>();
+    private List<TeamList> allTeamList = new ArrayList<>();
     SharedPreferences sharedPreferences;
 
     @Override
@@ -76,16 +83,18 @@ public class TeamListActivity extends AppCompatActivity {
 
         new ListTeamAsync(TeamListActivity.this).execute();
         //prepareMyTaskData();
+
     }
 
     public void prepareMyTaskData(List<Team> teams) {
 
+        this.allTeamList.clear();
         TeamList teamList = null;
         try{
             if(!teams.isEmpty()) {
                 for (Team team : teams) {
                     teamList = new TeamList(team.getName(), team.getSlug(), "10+ Unread Messages", R.drawable.devam);
-                    this.allTeamList.add(teamList);
+                    allTeamList.add(teamList);
                 }
                 teamListAdapter.notifyDataSetChanged();
             }

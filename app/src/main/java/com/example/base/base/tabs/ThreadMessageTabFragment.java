@@ -1,6 +1,7 @@
 package com.example.base.base.tabs;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.base.base.R;
+import com.example.base.base.message_format.MessageFragment;
 import com.example.base.base.thread.DisplayThreadFragment;
 import com.example.base.base.personalmessage.PersonalMessageFragment;
 
@@ -19,11 +21,13 @@ public class ThreadMessageTabFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private FragmentTabHost mTabHost;
-    private String threadName;
+    private String threadName,threadSlug,channelSlug;
 
-    public static ThreadMessageTabFragment newInstance (String threadName){
+    public static ThreadMessageTabFragment newInstance (String threadName,String threadSlug,String channelSlug){
         Bundle bundle = new Bundle();
         bundle.putString("threadName", threadName);
+        bundle.putString("threadSlug", threadSlug);
+        bundle.putString("channelSlug", channelSlug);
 
         ThreadMessageTabFragment fragment = new ThreadMessageTabFragment();
         fragment.setArguments(bundle);
@@ -35,6 +39,8 @@ public class ThreadMessageTabFragment extends Fragment {
     private void readBundle(Bundle bundle) {
         if (bundle != null) {
             this.threadName = bundle.getString("threadName");
+            this.threadSlug = bundle.getString("threadSlug");
+            this.channelSlug = bundle.getString("channelSlug");
         }
     }
 
@@ -59,12 +65,17 @@ public class ThreadMessageTabFragment extends Fragment {
 
         getActivity().setTitle(this.threadName);
 
+        Intent i = getActivity().getIntent();
+        i.putExtra("MessageTitleName",threadName);
+        i.putExtra("channelSlug",channelSlug);
+        i.putExtra("threadSlug",threadSlug);
+
         mTabHost = (FragmentTabHost) view.findViewById(android.R.id.tabhost);
 
         mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.FlThreadMessageTab);
 
         mTabHost.addTab(mTabHost.newTabSpec("Messages").setIndicator("Messages"),
-                DisplayThreadFragment.class, null);
+                MessageFragment.class, null);
 
         mTabHost.addTab(mTabHost.newTabSpec("Files").setIndicator("Files"),
                 PersonalMessageFragment.class, null);

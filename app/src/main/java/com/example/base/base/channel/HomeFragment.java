@@ -19,8 +19,11 @@ import com.example.base.base.R;
 import com.example.base.base.async.channel.ListChannelAsync;
 
 import com.base.Models.Channel;
+import com.example.base.base.handler.ChannelMessageHandler;
 import com.example.base.base.recyclerview_necessarydata.RecyclerTouchListener;
 import com.example.base.base.tabs.ThreadTabFragment;
+import com.pusher.client.Pusher;
+import com.pusher.client.PusherOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,12 +92,10 @@ public class HomeFragment extends Fragment {
                 ChannelItem channelItem = channelsList.get(position);
             }
         }));
-
     }
 
     private void prepareMyTaskData(List<Channel> channels) {
-
-
+        this.channelsList.clear();
         ChannelItem channelItem = null;
         try{
             if(!channels.isEmpty()) {

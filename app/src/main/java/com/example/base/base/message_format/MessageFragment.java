@@ -19,9 +19,17 @@ import com.example.base.base.async.message.ListMessagesAsync;
 import com.example.base.base.async.message.SendMessageAsync;
 import com.example.base.base.chat.ChatMessage;
 import com.example.base.base.chat.ChatUser;
+import com.example.base.base.handler.ChannelMessageHandler;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.pusher.client.Pusher;
+import com.pusher.client.PusherOptions;
 import com.stfalcon.chatkit.messages.MessageInput;
 import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,22 +89,27 @@ public class MessageFragment extends Fragment {
                 @Override
                 public boolean onSubmit(CharSequence input) {
                     //validate and send message
-                    Message message = new Message();
-                    message.setContent(input.toString());
-                    message.setCreated_at("00:00");
-                    ChatMessage chatMessage = new ChatMessage(message);
-                    adapter.addToStart(chatMessage, true);
+                    if (input.toString().trim().length() != 0) {
+                        Message message = new Message();
+                        message.setContent(input.toString().trim());
+                        message.setCreated_at("00:00");
+                        setMessage(message);
+                        /*ChatMessage chatMessage = new ChatMessage(message);
+                        adapter.addToStart(chatMessage, true);*/
 
-                    new SendMessageAsync(teamSlug,channelSlug,threadSlug,input.toString(),"text",getActivity()){
-                        @Override
-                        protected void onPostExecute(String result) {
-                            if(result.contains("Error"))
-                            {
-                                Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
+                        new SendMessageAsync(teamSlug, channelSlug, threadSlug, input.toString().trim(), "text", getActivity()) {
+                            @Override
+                            protected void onPostExecute(String result) {
+                                if (result.contains("Error")) {
+                                    Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
-                    }.execute();
-                    return true;
+                        }.execute();
+                        return true;
+                    }else
+                    {
+                        return false;
+                    }
                 }
             });
 
@@ -108,6 +121,35 @@ public class MessageFragment extends Fragment {
                 }
             }.execute();
         }
+
+        //pusher code
+        PusherOptions options = new PusherOptions();
+        options.setCluster("ap2");
+        Pusher pusher = new Pusher("0629736944f65f07a707", options);
+
+        com.pusher.client.channel.Channel channel = pusher.subscribe("my-channel");
+        channel.bind("my-event", new ChannelMessageHandler(getActivity()){
+            @Override
+            public void onEvent(String channelName, String eventName, final String data) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            String input_value = jsonObject.getString("message");
+                            Message message = new Message();
+                            message.setContent(input_value);
+                            message.setCreated_at("00:00");
+                            setMessage(message);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+        pusher.connect();
     }
 
     public void setList(List<Message> messages){
@@ -126,5 +168,10 @@ public class MessageFragment extends Fragment {
         }
     }
 
+    public void setMessage(Message message)
+    {
+        ChatMessage chatMessage = new ChatMessage(message);
+        adapter.addToStart(chatMessage, true);
+    }
 
 }
