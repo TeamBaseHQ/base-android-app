@@ -24,6 +24,7 @@
         android:paddingTop="15dp"
         android:paddingLeft="20dp"
         android:layout_toRightOf="@+id/nav_ivProfilePicture"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="@dimen/custom_list_heading_text_size"/>
 
 </RelativeLayout>

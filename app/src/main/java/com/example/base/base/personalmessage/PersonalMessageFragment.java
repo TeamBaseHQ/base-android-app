@@ -19,15 +19,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.base.Models.User;
 import com.example.base.base.async.channel.AddChannelMemberAsync;
+import com.example.base.base.async.channel.DeleteChannelMemberAsync;
 import com.example.base.base.async.channel.ListChannelMemberNameAsync;
 import com.example.base.base.async.member.ListTeamMemberAsync;
 import com.example.base.base.channel.AddChannelMember;
 import com.example.base.base.channel.AddChannelMemberAdapter;
 import com.example.base.base.channel.ChannelItem;
+import com.example.base.base.helper.Helper;
 import com.example.base.base.message_format.MessageFragment;
 import com.example.base.base.R;
 import com.example.base.base.recyclerview_necessarydata.DividerItemDecoration;
@@ -71,6 +74,7 @@ public class PersonalMessageFragment extends Fragment {
         floatingActionButton = view.findViewById(R.id.fabPmAdd);
 
         Intent i = getActivity().getIntent();
+        channelSlug = i.getExtras().getString("channelSlugName");
         try {
             if (i.getExtras().containsKey("flag")) {
                 this.choice = i.getExtras().getInt("flag");
@@ -102,7 +106,6 @@ public class PersonalMessageFragment extends Fragment {
                             .getSharedPreferences("BASE",Context.MODE_PRIVATE);
                     final String teamSlug_custom = sharedPreferences_custom.getString("teamSlug","");
                     Intent i = getActivity().getIntent();
-                    channelSlug = i.getExtras().getString("channelSlugName");
 
                     final List<AddChannelMember> addChannelMembers = new ArrayList<>();
                     final AddChannelMemberAdapter addChannelMemberAdapter = new AddChannelMemberAdapter(addChannelMembers);
@@ -174,7 +177,7 @@ public class PersonalMessageFragment extends Fragment {
                                 }
                                 if(flag==0)
                                 {
-                                    AddChannelMember addChannelMember = new AddChannelMember(user.getName(),R.drawable.devam,user.getId());
+                                    AddChannelMember addChannelMember = new AddChannelMember(user.getName(),Helper.resolveUrl(user.getPicture(),"thumb"),user.getId());
                                     addChannelMembers.add(addChannelMember);
                                 }
                                 flag=0;
@@ -238,7 +241,45 @@ public class PersonalMessageFragment extends Fragment {
 
             @Override
             public void onLongClick(View view, int position) {
-                PersonalMessage personalMessage = personalMessagesList.get(position);
+                final PersonalMessage personalMessage = personalMessagesList.get(position);
+                if(choice==1)
+                {
+                    final Dialog dialog= new Dialog(getActivity());
+                    dialog.setContentView(R.layout.customdialog_deletechannelmember);
+
+                    TextView tvHeading = dialog.findViewById(R.id.tvCdcmHeading);
+                    tvHeading.setText("Remove "+personalMessage.getMemberName()+" ?");
+
+                    Button ok = dialog.findViewById(R.id.btnCdcmOk);
+                    ok.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            new DeleteChannelMemberAsync(personalMessage.getMemberId(),channelSlug,getActivity()){
+                                @Override
+                                protected void onPostExecute(Boolean result) {
+                                    if(result){
+                                        getChannelMember(sharedPreferences.getString("teamSlug", ""),channelSlug);
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(getActivity(), "Unable to delete", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }.execute();
+                            dialog.dismiss();
+                        }
+                    });
+
+                    Button cancel = dialog.findViewById(R.id.btnCdcmCancel);
+                    cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    dialog.show();
+                }
             }
         }));
     }
@@ -250,7 +291,7 @@ public class PersonalMessageFragment extends Fragment {
         try{
             if(!users.isEmpty()) {
                 for (User user : users) {
-                    personalMessage= new PersonalMessage(R.drawable.devam, user.getName(),"Devam: Hello","2m");
+                    personalMessage= new PersonalMessage(Helper.resolveUrl(user.getPicture(),"thumb"), user.getName(),"Devam: Hello","2m",user.getId());
                     this. personalMessagesList.add(personalMessage);
                 }
                 personalMessageAdapter.notifyDataSetChanged();

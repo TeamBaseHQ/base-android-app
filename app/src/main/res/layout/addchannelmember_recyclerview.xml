@@ -17,6 +17,7 @@
         android:layout_toRightOf="@+id/ivAcmMemberPic"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="18dp"
+        android:textSize="@dimen/custom_list_heading_text_size"
         android:textColor="@color/white"/>
 
 </RelativeLayout>

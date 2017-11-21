@@ -2,24 +2,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.base.base.PeopleFragment">
+    tools:context="com.example.base.base.member.PeopleFragment">
+
+    <LinearLayout
+        android:id="@+id/llFp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:orientation="horizontal">
 
     <EditText
         android:id="@+id/etFpSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:background="@android:color/transparent"
+        android:background="@color/transparent"
         android:hint="Search..."
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:paddingLeft="10dp"/>
+        android:paddingLeft="10dp"
+        android:textSize="@dimen/custom_list_content_text_size"
+        android:layout_weight="1"/>
+
+    </LinearLayout>
     <View
         android:id="@+id/vFpview"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="#c0c0c0"
-        android:layout_below="@+id/etFpSearch"
+        android:layout_below="@+id/llFp"
         android:layout_marginTop="15dp"/>
 
     <android.support.v7.widget.RecyclerView

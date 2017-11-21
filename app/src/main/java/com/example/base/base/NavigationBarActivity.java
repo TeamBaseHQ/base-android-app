@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import com.example.base.base.tabs.TabFragment;
 import com.example.base.base.tabs.ThreadTabFragment;
 import com.example.base.base.team.TeamListActivity;
 import com.example.base.base.thread.AllThreadsFragment;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -217,7 +219,13 @@ public class NavigationBarActivity extends AppCompatActivity
 
     public void setUserName(String userName_value)
     {
+        sharedPreferences = getSharedPreferences("BASE",Context.MODE_PRIVATE);
+
         TextView userName = (TextView) findViewById(R.id.nav_txtProfileName);
+        ImageView userPic = (ImageView) findViewById(R.id.nav_ivProfilePicture);
         userName.setText(userName_value);
+        Picasso.with(this)
+                .load(sharedPreferences.getString("User_image",""))
+                .into(userPic);
     }
 }

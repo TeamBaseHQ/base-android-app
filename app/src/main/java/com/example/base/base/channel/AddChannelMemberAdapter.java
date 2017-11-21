@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.base.base.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -34,7 +35,9 @@ public class AddChannelMemberAdapter extends RecyclerView.Adapter<AddChannelMemb
     public void onBindViewHolder(AddChannelMemberAdapter.AddChannelMemberHolder holder, int position) {
         AddChannelMember addChannelMember = addChannelMemberList.get(position);
         holder.memberName.setText(addChannelMember.getMemberName());
-        holder.memberPic.setImageResource(addChannelMember.getMemberPic());
+        Picasso.with(holder.tempview.getContext())
+                .load(addChannelMember.getMemberPic())
+                .into(holder.memberPic);
     }
 
     @Override
@@ -42,11 +45,13 @@ public class AddChannelMemberAdapter extends RecyclerView.Adapter<AddChannelMemb
     public class AddChannelMemberHolder extends RecyclerView.ViewHolder {
         public TextView memberName;
         public ImageView memberPic;
+        public View tempview;
 
         public AddChannelMemberHolder(View view) {
             super(view);
             memberName = view.findViewById(R.id.tvAcmMemberName);
             memberPic = view.findViewById(R.id.ivAcmMemberPic);
+            tempview = view;
         }
     }
 }

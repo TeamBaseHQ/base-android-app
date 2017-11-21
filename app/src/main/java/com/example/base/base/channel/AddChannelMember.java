@@ -7,17 +7,17 @@ package com.example.base.base.channel;
 public class AddChannelMember {
 
     private String memberName;
-    private int memberPic;
+    private String memberPic;
     private int memberId;
 
-    public AddChannelMember(String memberName,int memberPic,int memberId)
+    public AddChannelMember(String memberName,String memberPic,int memberId)
     {
         this.memberName = memberName;
         this.memberPic = memberPic;
         this.memberId = memberId;
     }
 
-    public int getMemberPic() {
+    public String getMemberPic() {
         return memberPic;
     }
 
@@ -33,7 +33,7 @@ public class AddChannelMember {
         this.memberName = memberName;
     }
 
-    public void setMemberPic(int memberPic) {
+    public void setMemberPic(String memberPic) {
         this.memberPic = memberPic;
     }
 

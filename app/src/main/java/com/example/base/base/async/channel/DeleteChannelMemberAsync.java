@@ -2,24 +2,20 @@ package com.example.base.base.async.channel;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.widget.Toast;
+import android.util.Log;
 
 import com.base.Base;
 import com.base.Exceptions.BaseHttpException;
 import com.base.Exceptions.ChannelNotFound;
-import com.base.Exceptions.TeamNotFound;
-import com.base.Models.Channel;
-import com.example.base.base.NavigationBarActivity;
 import com.example.base.base.singleton.BaseManager;
 
 /**
- * Created by Devam on 20-Nov-17.
+ * Created by Devam on 21-Nov-17.
  */
 
-public class AddChannelMemberAsync extends AsyncTask<String, Void, Boolean> {
+public class DeleteChannelMemberAsync extends AsyncTask<String, Void, Boolean> {
 
     private static Base base;
     private String channelSlug,teamSlug;
@@ -29,11 +25,11 @@ public class AddChannelMemberAsync extends AsyncTask<String, Void, Boolean> {
     SharedPreferences sharedPreferences;
     //static List<User> users;
 
-    public AddChannelMemberAsync(int memberId,String channelSlug,Context context){
+    public DeleteChannelMemberAsync(int memberId,String channelSlug,Context context){
         this.memberId = memberId;
         this.context = context;
         this.channelSlug = channelSlug;
-        AddChannelMemberAsync.base = BaseManager.getInstance(context);
+        DeleteChannelMemberAsync.base = BaseManager.getInstance(context);
     }
 
     @Override
@@ -42,8 +38,11 @@ public class AddChannelMemberAsync extends AsyncTask<String, Void, Boolean> {
         try {
             sharedPreferences = context.getSharedPreferences("BASE",Context.MODE_PRIVATE);
             teamSlug = sharedPreferences.getString("teamSlug","");
-            boolean result = AddChannelMemberAsync.base.channelMemberService()
-                    .addChannelMember(teamSlug, channelSlug, String.valueOf(memberId));
+            Log.d("MemberId",memberId+"");
+            Log.d("teamSlug",teamSlug+"");
+            Log.d("channelSlug",channelSlug+"");
+            boolean result = DeleteChannelMemberAsync.base.channelMemberService()
+                    .deleteChannelMember(teamSlug, channelSlug, String.valueOf(memberId));
             return result;
 
         } catch (BaseHttpException e) {
@@ -65,7 +64,7 @@ public class AddChannelMemberAsync extends AsyncTask<String, Void, Boolean> {
     protected void onPreExecute() {
         pb = new ProgressDialog(this.context);
         pb.setCancelable(false);
-        pb.setMessage("Adding Member to Channel...");
+        pb.setMessage("Deleting Member to Channel...");
         pb.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         pb.setProgress(0);
         pb.setMax(100);
@@ -83,4 +82,5 @@ public class AddChannelMemberAsync extends AsyncTask<String, Void, Boolean> {
         pb.show();
     }
 }
+
 

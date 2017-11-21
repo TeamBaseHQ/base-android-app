@@ -4,8 +4,8 @@
 
     <TextView
         android:id="@+id/tvCrColor"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_marginTop="20dp"
         />
     <TextView
@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/tvCrColor"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
+        android:textSize="@dimen/custom_list_content_text_size"
         android:textColor="@color/text"/>
     <ImageView
         android:id="@+id/ivCrNumberOfMessage"

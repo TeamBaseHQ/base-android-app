@@ -76,7 +76,7 @@
         app:inputButtonWidth="30dp"
         app:inputMaxLines="3"
         app:inputTextColor="@color/black"
-        app:inputTextSize="18sp"
+        app:inputTextSize="@dimen/custom_list_content_text_size"
         app:inputHint="@string/hint_enter_a_message" />
 
 

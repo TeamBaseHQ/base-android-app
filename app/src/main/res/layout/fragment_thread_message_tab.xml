@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:id="@android:id/tabhost"
     android:layout_height="match_parent"
-    tools:context="com.example.base.base.ThreadMessageTabFragment">
+    tools:context="com.example.base.base.tabs.ThreadMessageTabFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <FrameLayout

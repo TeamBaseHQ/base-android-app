@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.base.base.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -36,7 +37,10 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PeopleHold
         holder.name.setText(people.getPeopleName());
         Log.d("Name :- ",people.getPeopleName());
         holder.status.setText(people.getPeopleStatus());
-        holder.pic.setImageResource(people.getPeoplePic());
+        Picasso.with(holder.tempview.getContext())
+                .load(people.getPeoplePic())
+                .into(holder.pic);
+        //holder.pic.setImageResource(people.getPeoplePic());
         //holder.message.setImageResource(channel.getChannelMessage());
     }
 
@@ -45,12 +49,14 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PeopleHold
     public class PeopleHolder extends RecyclerView.ViewHolder {
         public TextView status, name;
         public ImageView pic;
+        public View tempview;
 
         public PeopleHolder(View view) {
             super(view);
             status = (TextView) view.findViewById(R.id.tvPrPeopleStatus);
             name = (TextView) view.findViewById(R.id.tvPrPeopleName);
             pic = (ImageView) view.findViewById(R.id.ivPrPeoplePic);
+            tempview = view;
         }
     }
 }

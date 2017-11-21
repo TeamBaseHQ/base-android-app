@@ -7,19 +7,21 @@ package com.example.base.base.member;
 public class People {
 
     private String peopleName,peopleStatus;
-    private int peoplePic;
+    private String peoplePic;
+    private int peopleId;
 
     public People(){
 
     }
 
-    public People(String name,String status,int pic){
+    public People(String name,String status,String pic,int peopleId){
         this.peopleName = name;
         this.peopleStatus = status;
         this.peoplePic = pic;
+        this.peopleId = peopleId;
     }
 
-    public int getPeoplePic() {
+    public String getPeoplePic() {
         return peoplePic;
     }
 
@@ -31,16 +33,24 @@ public class People {
         return peopleStatus;
     }
 
+    public int getPeopleId() {
+        return peopleId;
+    }
+
     public void setPeopleName(String peopleName) {
         this.peopleName = peopleName;
     }
 
-    public void setPeoplePic(int peoplePic) {
+    public void setPeoplePic(String peoplePic) {
         this.peoplePic = peoplePic;
     }
 
     public void setPeopleStatus(String peopleStatus) {
         this.peopleStatus = peopleStatus;
+    }
+
+    public void setPeopleId(int peopleId) {
+        this.peopleId = peopleId;
     }
 }
 

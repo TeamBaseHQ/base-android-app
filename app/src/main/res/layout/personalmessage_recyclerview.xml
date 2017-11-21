@@ -16,7 +16,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="20dp"
         android:textStyle="bold"
-        android:textSize="18dp"
+        android:textSize="@dimen/custom_list_heading_text_size"
         android:textColor="@color/text"
         />
 
@@ -29,6 +29,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
+        android:textSize="@dimen/custom_list_content_text_size"
         android:textColor="@color/text"/>
 
     <TextView
@@ -38,6 +39,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
+        android:textSize="@dimen/custom_list_time_text_size"
         android:textColor="@color/text"/>
 
 </RelativeLayout>

@@ -32,17 +32,7 @@ public class SplashActivity extends AppCompatActivity {
         Animation an = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.alphaanim_splash);
         iv.setAnimation(an);
 
-        //Code to add object in sharedpreferences
         sharedpreferences = getSharedPreferences("BASE", Context.MODE_PRIVATE);
-        //SharedPreferences.Editor editor = sharedpreferences.edit();
-        /*Gson gson = new Gson();
-        String json = gson.toJson(base);
-        editor.putString("BaseObject", base.toString());
-        editor.commit();*/
-
-        /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                .permitAll().build();
-        StrictMode.setThreadPolicy(policy);*/
 
 
         Thread t = new Thread(){

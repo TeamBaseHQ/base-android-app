@@ -2,14 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.base.base.CreateChannelFragment">
+    tools:context="com.example.base.base.channel.CreateChannelFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/tvCcHeadingChannel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="@dimen/custom_list_heading_text_size"
         android:layout_marginTop="70dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
         android:text="@string/cancel"
-        android:textSize="20sp"
+        android:textSize="@dimen/custom_list_heading_text_size"
         android:textColor="@color/text"
         android:layout_alignParentRight="true"
         android:layout_marginTop="70dp"/>
@@ -52,7 +52,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:textSize="18sp"
+        android:textSize="@dimen/custom_list_heading_text_size"
         android:text="Name"
         android:textColor="@color/text"/>
 
@@ -81,6 +81,7 @@
         android:hint="Eg: Design"
         android:textColor="@color/text"
         android:textColorHint="@color/text"
+        android:textSize="@dimen/custom_list_content_text_size"
         />
 
     <TextView
@@ -91,14 +92,16 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:textSize="18sp"
+        android:textSize="@dimen/custom_list_heading_text_size"
         android:text="Privacy"
-        android:textColor="@color/text"/>
+        android:textColor="@color/text"
+
+        />
 
     <CheckBox
         android:id="@+id/cbCcPublic"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:button="@null"
         android:background="?android:attr/listChoiceIndicatorMultiple"
         android:layout_below="@id/tvCcChannelPrivacy"
@@ -110,9 +113,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvCcChannelPrivacy"
         android:layout_toRightOf="@+id/cbCcPublic"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:textColor="@color/text"
-        android:textSize="20sp"
+        android:textSize="@dimen/custom_list_content_text_size"
         android:textStyle="bold"
         android:text="Public"/>
 
@@ -125,12 +128,13 @@
         android:layout_marginTop="5dp"
         android:textColor="@color/text"
         android:layout_marginRight="20dp"
+        android:textSize="@dimen/custom_list_time_text_size"
         android:text="Everyone on your team will be able to join this channel."/>
 
     <CheckBox
         android:id="@+id/cbCcPrivate"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:button="@null"
         android:background="?android:attr/listChoiceIndicatorMultiple"
         android:layout_below="@id/cbCcPublic"
@@ -144,7 +148,7 @@
         android:layout_toRightOf="@+id/cbCcPrivate"
         android:layout_marginTop="15dp"
         android:textColor="@color/text"
-        android:textSize="20sp"
+        android:textSize="@dimen/custom_list_content_text_size"
         android:textStyle="bold"
         android:text="Private"/>
 
@@ -156,6 +160,7 @@
         android:layout_toRightOf="@+id/cbCcPrivate"
         android:layout_marginTop="5dp"
         android:layout_marginRight="20dp"
+        android:textSize="@dimen/custom_list_time_text_size"
         android:text="Only invited teammates will be able to access this channel."
         android:textColor="@color/text"/>
 
@@ -166,7 +171,7 @@
         android:layout_below="@+id/cbCcPrivate"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:textSize="18sp"
+        android:textSize="@dimen/custom_list_heading_text_size"
         android:text="Add Members"
         android:layout_marginTop="20dp"
         android:textColor="@color/text"/>
@@ -185,7 +190,8 @@
         android:maxLines="1"
         android:background="@drawable/edittext_channelname"
         android:textColor="@color/text"
-        android:textColorHint="@color/text"/>
+        android:textColorHint="@color/text"
+        android:textSize="@dimen/custom_list_content_text_size"/>
 
     <Button
         android:id="@+id/btnCcCreate"
@@ -197,7 +203,7 @@
         android:background="@drawable/button_design"
         android:text="Create"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="@dimen/custom_list_content_text_size"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"/>
 

@@ -8,7 +8,7 @@
         android:id="@+id/tvFtHeadingThread"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="@dimen/custom_list_heading_text_size"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:textColor="@color/text"
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
         android:text="@string/cancel"
-        android:textSize="20sp"
+        android:textSize="@dimen/custom_list_heading_text_size"
         android:layout_alignParentRight="true"
         android:layout_marginTop="70dp"
         android:textColor="@color/text"/>
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:textSize="18sp"
+        android:textSize="@dimen/custom_list_heading_text_size"
         android:text="Subject"
         android:textColor="@color/text"/>
 
@@ -71,6 +71,7 @@
         android:hint="Eg: New Website Redesign"
         android:textColor="@color/text"
         android:textColorHint="@color/text"
+        android:textSize="@dimen/custom_list_content_text_size"
         />
 
     <TextView
@@ -80,7 +81,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:textSize="18sp"
+        android:textSize="@dimen/custom_list_heading_text_size"
         android:text="Description"
         android:layout_below="@+id/etFtThreadSubject"
         android:textColor="@color/text"/>
@@ -102,6 +103,7 @@
         android:paddingTop="10dp"
         android:textColor="@color/text"
         android:textColorHint="@color/text"
+        android:textSize="@dimen/custom_list_content_text_size"
         />
 
     <Button
@@ -114,7 +116,7 @@
         android:background="@drawable/button_design"
         android:text="Start"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="@dimen/custom_list_content_text_size"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="15dp"/>
 

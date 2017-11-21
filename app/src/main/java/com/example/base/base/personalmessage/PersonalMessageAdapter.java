@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.base.base.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -35,7 +36,9 @@ public class PersonalMessageAdapter extends RecyclerView.Adapter<PersonalMessage
         holder.name.setText(personalMessage.getMemberName());
         holder.message.setText(personalMessage.getMemberMessage());
         holder.time.setText(personalMessage.getMemberTime());
-        holder.pic.setImageResource(personalMessage.getMemberPic());
+        Picasso.with(holder.tempView.getContext())
+                .load(personalMessage.getMemberPic())
+                .into(holder.pic);
 
         //holder.message.setImageResource(channel.getChannelMessage());
     }
@@ -45,6 +48,7 @@ public class PersonalMessageAdapter extends RecyclerView.Adapter<PersonalMessage
     public class PersonalMessageHolder extends RecyclerView.ViewHolder {
         public TextView message,name,time;
         public ImageView pic;
+        public View tempView;
 
         public PersonalMessageHolder(View view) {
             super(view);
@@ -52,6 +56,7 @@ public class PersonalMessageAdapter extends RecyclerView.Adapter<PersonalMessage
             message = (TextView) view.findViewById(R.id.tvPmrMemberMessage);
             time = (TextView) view.findViewById(R.id.tvPmrMemberTime);
             pic = (ImageView) view.findViewById(R.id.ivPmrMemberPic);
+            tempView = view;
         }
     }
 }

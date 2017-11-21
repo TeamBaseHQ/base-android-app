@@ -1,6 +1,8 @@
 package com.example.base.base.tabs;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,10 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.base.base.channel.HomeFragment;
-import com.example.base.base.member.PeopleFragment;
 import com.example.base.base.R;
 import com.example.base.base.channel.CreateChannelFragment;
+import com.example.base.base.channel.HomeFragment;
+import com.example.base.base.member.PeopleFragment;
 import com.example.base.base.personalmessage.PersonalMessageFragment;
 import com.example.base.base.thread.ThreadFragment;
 
@@ -62,43 +64,39 @@ public class TabFragment extends Fragment {
 
         mTabHost = (FragmentTabHost) view.findViewById(android.R.id.tabhost);
         mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.FlTab);
-
         if(choice==0) {
-            mTabHost.addTab(mTabHost.newTabSpec("Home").setIndicator("", getResources().getDrawable(R.mipmap.home)),
+            mTabHost.addTab(mTabHost.newTabSpec("Home").setIndicator("", getResources().getDrawable(R.drawable.tab_home)),
                     HomeFragment.class, null);
         }
         else if(choice==1)
         {
-            mTabHost.addTab(mTabHost.newTabSpec("Home").setIndicator("", getResources().getDrawable(R.mipmap.home)),
+            mTabHost.addTab(mTabHost.newTabSpec("Home").setIndicator("", getResources().getDrawable(R.drawable.tab_home)),
                     CreateChannelFragment.class, null);
         }
         else if(choice==2)
         {
-            mTabHost.addTab(mTabHost.newTabSpec("Home").setIndicator("", getResources().getDrawable(R.mipmap.home)),
+            mTabHost.addTab(mTabHost.newTabSpec("Home").setIndicator("", getResources().getDrawable(R.drawable.tab_home)),
                     ThreadFragment.class, null);
         }
         else
         {
-            mTabHost.addTab(mTabHost.newTabSpec("Home").setIndicator("", getResources().getDrawable(R.mipmap.home)),
+            mTabHost.addTab(mTabHost.newTabSpec("Home").setIndicator("", getResources().getDrawable(R.drawable.tab_home)),
                     HomeFragment.class, null);
         }
-        mTabHost.addTab(mTabHost.newTabSpec("PersonalMessage").setIndicator("",getResources().getDrawable(R.mipmap.personalmessage)),
+        mTabHost.addTab(mTabHost.newTabSpec("PersonalMessage").setIndicator("",getResources().getDrawable(R.drawable.tab_personalmessage)),
                 PersonalMessageFragment.class, null);
 
-        mTabHost.addTab(mTabHost.newTabSpec("People").setIndicator("",getResources().getDrawable(R.mipmap.people)),
+        mTabHost.addTab(mTabHost.newTabSpec("People").setIndicator("",getResources().getDrawable(R.drawable.tab_people)),
                 PeopleFragment.class, null);
 
         mTabHost.setCurrentTab(0);
 
-        //setTabColor(mTabHost);
-
-
+        setTabColor(mTabHost);
     }
 
-    /*public static void setTabColor(TabHost tabhost) {
+    public static void setTabColor(FragmentTabHost tabhost) {
         for(int i=0;i<tabhost.getTabWidget().getChildCount();i++) {
             tabhost.getTabWidget().getChildAt(i).setBackgroundColor(Color.parseColor("#2F314A")); //unselected
         }
-        tabhost.getTabWidget().getChildAt(tabhost.getCurrentTab()).setBackgroundColor(Color.parseColor("#3F51B5")); // selected
-    }*/
+    }
 }

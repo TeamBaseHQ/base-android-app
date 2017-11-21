@@ -8,18 +8,20 @@ import android.icu.text.StringPrepParseException;
 
 public class PersonalMessage {
     private String memberName,memberMessage,memberTime;
-    private int memberPic;
+    private String memberPic;
+    private int memberId;
 
     public PersonalMessage(){}
 
-    public PersonalMessage(int pic,String name,String message,String time){
+    public PersonalMessage(String pic,String name,String message,String time,int MemberId){
         this.memberPic = pic;
         this.memberName = name;
         this.memberMessage = message;
         this.memberTime = time;
+        this.memberId = MemberId;
     }
 
-    public int getMemberPic() {
+    public String getMemberPic() {
         return memberPic;
     }
 
@@ -35,6 +37,10 @@ public class PersonalMessage {
         return memberTime;
     }
 
+    public int getMemberId() {
+        return memberId;
+    }
+
     public void setMemberMessage(String memberMessage) {
         this.memberMessage = memberMessage;
     }
@@ -43,7 +49,7 @@ public class PersonalMessage {
         this.memberName = memberName;
     }
 
-    public void setMemberPic(int memberPic) {
+    public void setMemberPic(String memberPic) {
         this.memberPic = memberPic;
     }
 
@@ -51,4 +57,7 @@ public class PersonalMessage {
         this.memberTime = memberTime;
     }
 
+    public void setMemberId(int memberId) {
+        this.memberId = memberId;
+    }
 }
