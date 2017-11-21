@@ -49,14 +49,40 @@
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
     android:layout_alignParentRight="true">
-        <android.support.design.widget.FloatingActionButton
+
+        <com.github.clans.fab.FloatingActionMenu
             android:id="@+id/fabFpAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fab_margin"
+            android:layout_margin="16dp"
             android:layout_gravity="bottom|end"
-            android:src="@drawable/add_floatingbutton"
-            />
+            app:menu_colorNormal="@color/colorAccent"
+            app:menu_colorPressed="@color/colorAccent"
+            app:menu_colorRipple="@color/warm_grey_two"
+            app:menu_fab_show_animation="@anim/jump_from_down"
+            app:menu_fab_hide_animation="@anim/jump_to_down"
+            >
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fabFpViewInvitation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/viewinvitation"
+                app:fab_colorPressed="@color/colorAccent"
+                app:fab_colorNormal="@color/colorAccent"
+                app:fab_colorRipple="@color/warm_grey_two"/>
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fabFpSendInvitation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/add_floatingbutton"
+                app:fab_colorPressed="@color/colorAccent"
+                app:fab_colorNormal="@color/colorAccent"
+                app:fab_colorRipple="@color/warm_grey_two"/>
+
+        </com.github.clans.fab.FloatingActionMenu>
+
     </android.support.design.widget.CoordinatorLayout>
 
 </RelativeLayout>

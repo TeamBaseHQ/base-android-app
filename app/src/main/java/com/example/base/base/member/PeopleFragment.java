@@ -3,9 +3,10 @@ package com.example.base.base.member;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -22,13 +23,14 @@ import android.widget.Toast;
 
 import com.base.Models.User;
 import com.example.base.base.R;
-import com.example.base.base.SendInvitationFragment;
-import com.example.base.base.async.channel.DeleteChannelMemberAsync;
+import com.example.base.base.team.SendInvitationFragment;
 import com.example.base.base.async.member.ListTeamMemberAsync;
 import com.example.base.base.async.team.DeleteTeamMemberAsync;
 import com.example.base.base.helper.Helper;
 import com.example.base.base.recyclerview_necessarydata.DividerItemDecoration;
 import com.example.base.base.recyclerview_necessarydata.RecyclerTouchListener;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,12 +63,12 @@ public class PeopleFragment extends Fragment {
         sharedPreferences = getContext().getSharedPreferences("BASE", Context.MODE_PRIVATE);
         if(sharedPreferences.contains("teamSlug"))
         {
-            setData(sharedPreferences.getString("teamSlug",""));
-        }
+        setData(sharedPreferences.getString("teamSlug",""));
+    }
 
 
-        //Floating Button
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabFpAdd);
+    //Floating Button
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabFpSendInvitation);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,6 +104,7 @@ public class PeopleFragment extends Fragment {
 
                 final Dialog dialog= new Dialog(getActivity());
                 dialog.setContentView(R.layout.customdialog_deletechannelmember);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
                 TextView tvHeading = dialog.findViewById(R.id.tvCdcmHeading);
                 tvHeading.setText("Remove "+people.getPeopleName()+" ?");

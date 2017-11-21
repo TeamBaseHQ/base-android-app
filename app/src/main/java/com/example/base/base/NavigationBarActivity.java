@@ -63,6 +63,7 @@ public class NavigationBarActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemIconTintList(null);
 
         //Set team
         try {
@@ -84,9 +85,7 @@ public class NavigationBarActivity extends AppCompatActivity
                                 for (Channel channel : result) {
                                     Drawable icon = getResources().getDrawable(R.drawable.ic_stop_black_48dp).mutate();
                                     String colorString = "#".concat(channel.getColor());
-                                    int color = getResources().getColor(R.color.amber);
-                                    Log.d("COLOR: ", colorString + "  " + color);
-                                    icon.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                                    icon.setColorFilter(Color.parseColor(colorString), PorterDuff.Mode.SRC_IN);
                                     menu.add(channel.getName()).setIcon(icon);
                                     channelName_list.put(channel.getSlug(), channel.getName());
                                 }

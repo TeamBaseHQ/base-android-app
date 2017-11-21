@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -35,10 +37,6 @@ import com.example.base.base.message_format.MessageFragment;
 import com.example.base.base.R;
 import com.example.base.base.recyclerview_necessarydata.DividerItemDecoration;
 import com.example.base.base.recyclerview_necessarydata.RecyclerTouchListener;
-import com.example.base.base.personalmessage.PersonalMessage;
-import com.example.base.base.personalmessage.PersonalMessageAdapter;
-import com.example.base.base.tabs.TabFragment;
-import com.example.base.base.tabs.ThreadTabFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,9 +87,11 @@ public class PersonalMessageFragment extends Fragment {
             floatingActionButton.setVisibility(View.VISIBLE);
             floatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View v) {
+
                     final Dialog dialog= new Dialog(getActivity());
                     dialog.setContentView(R.layout.customdialog_addchannelmember);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
                     Button ok = dialog.findViewById(R.id.btnCacmOk);
                     ok.setOnClickListener(new View.OnClickListener() {
@@ -188,6 +188,7 @@ public class PersonalMessageFragment extends Fragment {
                     }.execute();
                 }
             });
+
         }
         else if(choice==2)
         {

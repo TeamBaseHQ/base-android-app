@@ -1,4 +1,4 @@
-package com.example.base.base;
+package com.example.base.base.team;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.base.base.R;
 import com.example.base.base.async.team.InviteTeamMemberAsync;
 import com.example.base.base.tabs.TabFragment;
 import com.example.base.base.tabs.ThreadTabFragment;
