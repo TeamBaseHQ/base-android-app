@@ -38,6 +38,7 @@ public class GetUserAsync extends AsyncTask<String, Void, String> {
             sharedPreferences = context.getSharedPreferences("BASE", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putInt("User_id",user.getId());
+            //editor.putString("User_image",);
             editor.commit();
         } catch (UserNotFound userNotFound) {
             userNotFound.printStackTrace();

@@ -1,0 +1,115 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.base.base.SendInvitationFragment">
+
+    <TextView
+        android:id="@+id/tvSiHeadingSendInvitation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textColor="@color/text"
+        android:text="Send Invitation"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvSiCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:text="@string/cancel"
+        android:textSize="20sp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/text"/>
+
+    <View
+        android:id="@+id/vSiview"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#c0c0c0"
+        android:layout_below="@id/tvSiHeadingSendInvitation"
+        android:layout_marginTop="15dp"/>
+
+    <TextView
+        android:id="@+id/tvSiEmailId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vSiview"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        android:text="Email"
+        android:textColor="@color/text"/>
+
+    <EditText
+        android:id="@+id/etSiEmailId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvSiEmailId"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/edittext_channelname"
+        android:paddingLeft="10dp"
+        android:lines="2"
+        android:maxLines="1"
+        android:hint="Eg: devam@gmail.com"
+        android:textColor="@color/text"
+        android:textColorHint="@color/text"
+        />
+
+    <TextView
+        android:id="@+id/tvSiDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textSize="18sp"
+        android:text="Description"
+        android:layout_below="@+id/etSiEmailId"
+        android:textColor="@color/text"/>
+
+    <EditText
+        android:id="@+id/etSiDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvSiDescription"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/edittext_channelname"
+        android:paddingLeft="10dp"
+        android:lines="8"
+        android:maxLines="10"
+        android:hint="Eg: Join the Dark Side."
+        android:gravity="start"
+        android:paddingTop="10dp"
+        android:textColor="@color/text"
+        android:textColorHint="@color/text"
+        />
+
+    <Button
+        android:id="@+id/btnSiInvite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etSiDescription"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/button_design"
+        android:text="Invite"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="5dp"/>
+
+
+
+
+</RelativeLayout>

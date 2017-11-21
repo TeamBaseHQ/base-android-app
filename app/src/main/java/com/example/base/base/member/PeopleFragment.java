@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,8 +20,10 @@ import android.widget.Toast;
 
 import com.base.Models.User;
 import com.example.base.base.R;
+import com.example.base.base.SendInvitationFragment;
 import com.example.base.base.async.member.ListTeamMemberAsync;
 import com.example.base.base.recyclerview_necessarydata.DividerItemDecoration;
+import com.example.base.base.tabs.TabFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,8 +80,14 @@ public class PeopleFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+                Fragment fragment = new SendInvitationFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.FlContentNavigation, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
