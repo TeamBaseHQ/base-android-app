@@ -39,6 +39,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PeopleHold
         holder.status.setText(people.getPeopleStatus());
         Picasso.with(holder.tempview.getContext())
                 .load(people.getPeoplePic())
+                .placeholder(R.drawable.devam)
                 .into(holder.pic);
         //holder.pic.setImageResource(people.getPeoplePic());
         //holder.message.setImageResource(channel.getChannelMessage());

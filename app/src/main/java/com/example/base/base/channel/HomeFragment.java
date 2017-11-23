@@ -41,6 +41,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView rvHomeRecyclerView;
     private ChannelAdapter channelAdapter;
     SharedPreferences sharedPreferences;
+    TextView starred;
 
 
     @Nullable
@@ -59,7 +60,9 @@ public class HomeFragment extends Fragment {
         //getActivity().setTitle("My Tasks");
 
         //references
+        starred = view.findViewById(R.id.tvFhStarred);
         rvHomeRecyclerView = (RecyclerView) view.findViewById(R.id.rvFhHomeChannel);
+
         channelsList.clear();
         channelAdapter = new ChannelAdapter(channelsList);
         RecyclerView.LayoutManager rLayoutManager = new LinearLayoutManager(getActivity());

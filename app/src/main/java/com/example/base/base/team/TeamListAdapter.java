@@ -43,6 +43,7 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.TeamLi
         holder.teamMessage.setText(teamList.getTeamMessage());
         Picasso.with(holder.tempview.getContext())
                 .load(teamList.getTeamPic())
+                .placeholder(R.drawable.devam)
                 .into(holder.teamPic);
     }
 

@@ -135,7 +135,6 @@ public class TeamListActivity extends AppCompatActivity {
     }
 
     public void prepareMyTaskData(List<Team> teams) {
-
         this.allTeamList.clear();
         TeamList teamList = null;
         try{

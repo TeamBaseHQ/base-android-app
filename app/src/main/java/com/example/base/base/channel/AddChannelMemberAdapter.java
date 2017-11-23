@@ -37,6 +37,7 @@ public class AddChannelMemberAdapter extends RecyclerView.Adapter<AddChannelMemb
         holder.memberName.setText(addChannelMember.getMemberName());
         Picasso.with(holder.tempview.getContext())
                 .load(addChannelMember.getMemberPic())
+                .placeholder(R.drawable.devam)
                 .into(holder.memberPic);
     }
 

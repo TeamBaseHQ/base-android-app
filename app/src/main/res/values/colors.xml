@@ -20,7 +20,7 @@
     <color name="warm_grey_three">#8b8b8b</color>
     <color name="warm_grey_four">#979797</color>
     <color name="dark_mint">#51c05c</color>
-    <color name="cornflower_blue_two">#4f62d7</color>
+    <color name="cornflower_blue_two">#2B2C43</color>
     <color name="cornflower_blue_two_24">#3d4f62d7</color>
     <color name="cornflower_blue_two_dark">#475bd4</color>
     <color name="cornflower_blue_light_40">#64bec5f7</color>
@@ -54,3 +54,4 @@
 
     <color name="text">#5F6283</color>
 </resources>
+    <!--#4f62d7-->

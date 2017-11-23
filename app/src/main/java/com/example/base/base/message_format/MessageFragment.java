@@ -2,6 +2,7 @@ package com.example.base.base.message_format;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,15 +16,18 @@ import android.widget.Toast;
 
 import com.base.Models.Message;
 import com.example.base.base.R;
+import com.example.base.base.actions.AddMessageToList;
 import com.example.base.base.async.message.ListMessagesAsync;
 import com.example.base.base.async.message.SendMessageAsync;
 import com.example.base.base.chat.ChatMessage;
 import com.example.base.base.chat.ChatUser;
 import com.example.base.base.handler.ChannelMessageHandler;
+import com.example.base.base.service.BackgroundMessageService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.pusher.client.Pusher;
 import com.pusher.client.PusherOptions;
+import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.messages.MessageInput;
 import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
@@ -46,6 +50,10 @@ public class MessageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getActivity().registerReceiver(
+                        new AddMessageToList(this),
+                        new IntentFilter(BackgroundMessageService.BROADCAST_ACTION)
+                );
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_message, container, false);
     }
@@ -172,6 +180,17 @@ public class MessageFragment extends Fragment {
     {
         ChatMessage chatMessage = new ChatMessage(message);
         adapter.addToStart(chatMessage, true);
+    }
+
+    public void handleIncomingMessage(Message message) {
+        // Message belongs to current thread. Add to list
+        if (message.getThread().getSlug().equals(this.threadSlug)) {
+            setMessage(message);
+            return;
+        } //samjha? yup gajab gajab. abb dekh, aisayooooooooooooooooe listeners(actions) create karke
+        // fragments/activities mai use kar. Ek, ChannelList frag/act. mai ayega.
+        // Which will highligh the channel jispe message aaya hai. by checking the
+        // slug. samjha? ha smajyo. let's check.
     }
 
 }

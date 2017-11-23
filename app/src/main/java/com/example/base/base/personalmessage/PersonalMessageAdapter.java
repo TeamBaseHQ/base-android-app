@@ -38,6 +38,7 @@ public class PersonalMessageAdapter extends RecyclerView.Adapter<PersonalMessage
         holder.time.setText(personalMessage.getMemberTime());
         Picasso.with(holder.tempView.getContext())
                 .load(personalMessage.getMemberPic())
+                .placeholder(R.drawable.devam)
                 .into(holder.pic);
 
         //holder.message.setImageResource(channel.getChannelMessage());
