@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.base.Base;
@@ -36,24 +37,23 @@ public class ListChannelAsync extends AsyncTask<String, Void, List<Channel>> {
 
     @Override
     protected List<Channel> doInBackground(String... params) {
+        Log.d("CHODINA", "BACKGROUND");
         //requestHTTP(data);
         try {
 
             List<Channel> channel = ListChannelAsync.base.channelService().getAllChannels(this.slug);
+            Log.d("CHODINA", "LIST: " + channel.size());
             return channel;
 
         } catch (BaseHttpException e) {
+            Log.d("CHODINA", "ERROR AVYO");
             e.printStackTrace();
             return null;
         } catch (TeamNotFound teamNotFound) {
+            Log.d("CHODINA", "BC");
             teamNotFound.printStackTrace();
             return null;
         }
-    }
-
-    @Override
-    protected void onPostExecute(List<Channel> result) {
-        pb.dismiss();
     }
 
     @Override

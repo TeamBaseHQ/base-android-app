@@ -1,58 +1,53 @@
-package com.example.base.base.async.user;
+package com.example.base.base.async.channel;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.base.Base;
 import com.base.Exceptions.BaseHttpException;
-import com.base.Exceptions.Http.InputError;
-import com.base.Models.User;
+import com.base.Exceptions.ChannelNotFound;
+import com.example.base.base.NavigationBarActivity;
 import com.example.base.base.singleton.BaseManager;
-import com.example.base.base.user.LoginActivity;
 
 /**
- * Created by Devam on 13-Nov-17.
+ * Created by Devam on 23-Nov-17.
  */
 
-public class CreateUserAsync extends AsyncTask<String, Void, String> {
+public class DeleteChannelAsync extends AsyncTask<String, Void, Boolean> {
 
     private static Base base;
-    String name,email,password;
+    private String channelSlugName,teamSlug;
     ProgressDialog pb;
     Context context;
 
-    public CreateUserAsync(String name, String email, String password, Context context){
-        this.name = name;
-        this.email = email;
-        this.password = password;
+    public DeleteChannelAsync(String teamSlug, String channelSlugName, Context context){
         this.context = context;
-        CreateUserAsync.base = BaseManager.getInstance(context,true);
+        this.channelSlugName = channelSlugName;
+        this.teamSlug = teamSlug;
+        DeleteChannelAsync.base = BaseManager.getInstance(context);
     }
 
     @Override
-    protected String doInBackground(String... params) {
+    protected Boolean doInBackground(String... params) {
         //requestHTTP(data);
         try {
-            User createdUser = CreateUserAsync.base.userService().createUser(this.name, this.email, this.password);
-            return "Register successfully";
-        } catch (InputError e) {
+            Boolean result = DeleteChannelAsync.base.channelService()
+                    .deleteChannel(teamSlug, channelSlugName);
+            return result;
+        } catch (ChannelNotFound e) {
             // show errors
             // See: Handling Errors
             e.printStackTrace();
-            return "Error :-"+e.getMessage();
-
-        } catch (BaseHttpException e) {
-            // Log Error
-            //Toast.makeText(RegisterActivity.this, "Error :- "+e.getMessage(), Toast.LENGTH_SHORT).show();
-            return "Error :- "+e.getMessage();
+            return false;
         }
     }
 
     @Override
-    protected void onPostExecute(String result) {
+    protected void onPostExecute(Boolean result) {
         pb.dismiss();
     }
 
@@ -60,7 +55,7 @@ public class CreateUserAsync extends AsyncTask<String, Void, String> {
     protected void onPreExecute() {
         pb = new ProgressDialog(this.context);
         pb.setCancelable(false);
-        pb.setMessage("Creating Account...");
+        pb.setMessage("Deleting Channels...");
         pb.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         pb.setProgress(0);
         pb.setMax(100);
@@ -78,3 +73,4 @@ public class CreateUserAsync extends AsyncTask<String, Void, String> {
         pb.show();
     }
 }
+

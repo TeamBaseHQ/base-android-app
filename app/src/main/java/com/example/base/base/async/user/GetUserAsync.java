@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import com.base.Base;
 import com.base.Exceptions.UserNotFound;
 import com.base.Models.User;
+import com.example.base.base.helper.Helper;
 import com.example.base.base.singleton.BaseManager;
 import com.example.base.base.user.LoginActivity;
 import com.example.base.base.NavigationBarActivity;
@@ -38,7 +39,7 @@ public class GetUserAsync extends AsyncTask<String, Void, String> {
             sharedPreferences = context.getSharedPreferences("BASE", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putInt("User_id",user.getId());
-            editor.putString("User_image",user.getPicture().getUrl("thumb"));
+            editor.putString("User_image", Helper.resolveUrl(user.getPicture(),"thumb"));
             editor.commit();
         } catch (UserNotFound userNotFound) {
             userNotFound.printStackTrace();

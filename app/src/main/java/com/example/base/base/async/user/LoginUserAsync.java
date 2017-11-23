@@ -24,12 +24,12 @@ import com.google.gson.Gson;
 public class LoginUserAsync extends AsyncTask<String, Void, String> {
 
     ProgressDialog pb;
-    LoginActivity context;
+    Context context;
     String email, password;
     private static Base base;
     SharedPreferences sharedPreferences;
 
-    public LoginUserAsync(String email, String password, LoginActivity context) {
+    public LoginUserAsync(String email, String password, Context context) {
         this.email = email;
         this.password = password;
         this.context = context;
@@ -71,25 +71,6 @@ public class LoginUserAsync extends AsyncTask<String, Void, String> {
         @Override
     protected void onPostExecute(String result) {
         pb.dismiss();
-
-        if(result.contains("Error"))
-        {
-            Toast.makeText(context, "Incorrect Credentials", Toast.LENGTH_SHORT).show();
-        }
-        else if(result.contains("Login Successful"))
-        {
-            sharedPreferences = context.getSharedPreferences("BASE", Context.MODE_PRIVATE);
-            Intent i;
-            if(sharedPreferences.contains("teamSlug")) {
-                i = new Intent(context, NavigationBarActivity.class);
-            }
-            else
-            {
-                i = new Intent(context, TeamListActivity.class);
-            }
-            context.startActivity(i);
-            context.finish();
-        }
     }
 
     @Override

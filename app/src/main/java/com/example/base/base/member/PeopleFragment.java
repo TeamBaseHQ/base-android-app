@@ -21,8 +21,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.base.Models.Invitation;
 import com.base.Models.User;
 import com.example.base.base.R;
+import com.example.base.base.async.channel.DeleteChannelMemberAsync;
+import com.example.base.base.async.team.ViewInvitationAsync;
+import com.example.base.base.team.PendingListItem;
+import com.example.base.base.team.PendingListItemAdapter;
 import com.example.base.base.team.SendInvitationFragment;
 import com.example.base.base.async.member.ListTeamMemberAsync;
 import com.example.base.base.async.team.DeleteTeamMemberAsync;
@@ -39,8 +44,11 @@ import java.util.List;
 public class PeopleFragment extends Fragment {
 
     private List<People> peoplesList = new ArrayList<>();
+    private List<PendingListItem> viewInvitation = new ArrayList<>();
     private RecyclerView rvPeopleRecyclerView;
+    RecyclerView rvPendingEmailRecyclerView;
     private PeopleAdapter peopleAdapter;
+    private PendingListItemAdapter pendingListItemAdapter;
     SharedPreferences sharedPreferences;
 
     @Nullable
@@ -63,13 +71,13 @@ public class PeopleFragment extends Fragment {
         sharedPreferences = getContext().getSharedPreferences("BASE", Context.MODE_PRIVATE);
         if(sharedPreferences.contains("teamSlug"))
         {
-        setData(sharedPreferences.getString("teamSlug",""));
-    }
+            setData(sharedPreferences.getString("teamSlug",""));
+        }
 
 
-    //Floating Button
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabFpSendInvitation);
-        fab.setOnClickListener(new View.OnClickListener() {
+        //Floating Button
+        FloatingActionButton fabSendInvitation = (FloatingActionButton) view.findViewById(R.id.fabFpSendInvitation);
+        fabSendInvitation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -80,6 +88,48 @@ public class PeopleFragment extends Fragment {
                 transaction.replace(R.id.FlContentNavigation, fragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
+            }
+        });
+
+        FloatingActionButton fabViewPending = (FloatingActionButton) view.findViewById(R.id.fabFpViewInvitation);
+        fabViewPending.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Dialog dialog= new Dialog(getActivity());
+                dialog.setContentView(R.layout.customdialog_pendinginvitation);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                pendingListItemAdapter = new PendingListItemAdapter(viewInvitation);
+                rvPendingEmailRecyclerView = dialog.findViewById(R.id.rvCpi);
+                RecyclerView.LayoutManager rLayoutManager = new LinearLayoutManager(getActivity());
+                rvPendingEmailRecyclerView.setLayoutManager(rLayoutManager);
+                rvPendingEmailRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                rvPendingEmailRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+                rvPendingEmailRecyclerView.setAdapter(pendingListItemAdapter);
+
+                sharedPreferences = getActivity().getSharedPreferences("BASE",Context.MODE_PRIVATE);
+
+                new ViewInvitationAsync(sharedPreferences.getString("teamSlug",""),getActivity()){
+                    @Override
+                    protected void onPostExecute(List<Invitation> result) {
+                        if(result.isEmpty())
+                        {
+                            return;
+                        }
+                        prepareViewInvitationData(result);
+                    }
+
+                }.execute();
+
+                Button ok = dialog.findViewById(R.id.btnCpiOk);
+                ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
             }
         });
 
@@ -177,6 +227,28 @@ public class PeopleFragment extends Fragment {
         {
             e.printStackTrace();
             Toast.makeText(getActivity(), "Select Team", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void prepareViewInvitationData(List<Invitation> invitations) {
+        viewInvitation.clear();
+        PendingListItem pendingListItem = null;
+        try{
+            if(!invitations.isEmpty()) {
+                for (Invitation invitation : invitations) {
+                    if(invitation.getIs_accepted().equals("pending")) {
+                        pendingListItem = new PendingListItem(invitation.getEmail());
+                        this.viewInvitation.add(pendingListItem);
+                    }
+                }
+                pendingListItemAdapter.notifyDataSetChanged();
+            }
+            else {
+                Toast.makeText(getActivity(), "Don't have any Pending Request", Toast.LENGTH_SHORT).show();
+            }
+        }catch(Exception e)
+        {
+            Toast.makeText(getActivity(), "Don't have any Pending Request :- "+e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

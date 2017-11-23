@@ -3,53 +3,54 @@ package com.example.base.base.async.user;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.base.Auth.AccessToken;
 import com.base.Base;
+import com.base.Exceptions.BaseException;
 import com.base.Exceptions.BaseHttpException;
-import com.base.Exceptions.Http.InputError;
-import com.base.Models.User;
+import com.base.Models.Media;
+import com.example.base.base.NavigationBarActivity;
+import com.example.base.base.serializ.AccessTokenSerializable;
 import com.example.base.base.singleton.BaseManager;
+import com.example.base.base.team.TeamListActivity;
 import com.example.base.base.user.LoginActivity;
+import com.google.gson.Gson;
+
+import java.io.File;
 
 /**
- * Created by Devam on 13-Nov-17.
+ * Created by Devam on 23-Nov-17.
  */
 
-public class CreateUserAsync extends AsyncTask<String, Void, String> {
+public class UploadImageAsync extends AsyncTask<String, Void, String> {
 
-    private static Base base;
-    String name,email,password;
     ProgressDialog pb;
     Context context;
+    File file;
+    private static Base base;
 
-    public CreateUserAsync(String name, String email, String password, Context context){
-        this.name = name;
-        this.email = email;
-        this.password = password;
+    public UploadImageAsync(File file, Context context) {
+        this.file = file;
         this.context = context;
-        CreateUserAsync.base = BaseManager.getInstance(context,true);
+
+        UploadImageAsync.base = BaseManager.getInstance(context,true);
     }
 
     @Override
     protected String doInBackground(String... params) {
         //requestHTTP(data);
         try {
-            User createdUser = CreateUserAsync.base.userService().createUser(this.name, this.email, this.password);
-            return "Register successfully";
-        } catch (InputError e) {
-            // show errors
-            // See: Handling Errors
+            Media media = UploadImageAsync.base.userService().uploadProfilePicture(file);
+            return "Image Uploaded";
+        } catch (BaseHttpException e) {
             e.printStackTrace();
             return "Error :-"+e.getMessage();
-
-        } catch (BaseHttpException e) {
-            // Log Error
-            //Toast.makeText(RegisterActivity.this, "Error :- "+e.getMessage(), Toast.LENGTH_SHORT).show();
-            return "Error :- "+e.getMessage();
         }
     }
+
 
     @Override
     protected void onPostExecute(String result) {
@@ -60,7 +61,7 @@ public class CreateUserAsync extends AsyncTask<String, Void, String> {
     protected void onPreExecute() {
         pb = new ProgressDialog(this.context);
         pb.setCancelable(false);
-        pb.setMessage("Creating Account...");
+        pb.setMessage("Checking Credentials...");
         pb.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         pb.setProgress(0);
         pb.setMax(100);
@@ -78,3 +79,5 @@ public class CreateUserAsync extends AsyncTask<String, Void, String> {
         pb.show();
     }
 }
+
+

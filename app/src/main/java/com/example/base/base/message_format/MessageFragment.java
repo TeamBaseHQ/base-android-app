@@ -123,7 +123,7 @@ public class MessageFragment extends Fragment {
         }
 
         //pusher code
-        PusherOptions options = new PusherOptions();
+        /*PusherOptions options = new PusherOptions();
         options.setCluster("ap2");
         Pusher pusher = new Pusher("0629736944f65f07a707", options);
 
@@ -149,7 +149,7 @@ public class MessageFragment extends Fragment {
                 });
             }
         });
-        pusher.connect();
+        pusher.connect();*/
     }
 
     public void setList(List<Message> messages){

@@ -1,7 +1,10 @@
 package com.example.base.base.channel;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,9 +16,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.base.base.R;
+import com.example.base.base.async.channel.DeleteChannelAsync;
 import com.example.base.base.async.channel.ListChannelAsync;
 
 import com.base.Models.Channel;
@@ -64,15 +70,7 @@ public class HomeFragment extends Fragment {
         sharedPreferences = getContext().getSharedPreferences("BASE",Context.MODE_PRIVATE);
         if(sharedPreferences.contains("teamSlug"))
         {
-            new ListChannelAsync(sharedPreferences.getString("teamSlug",""),getActivity()){
-                @Override
-                protected void onPostExecute(List<Channel> result) {
-                    super.onPostExecute(result);
-                    // Do something with result here
-                    prepareMyTaskData(result);
-                }
-
-            }.execute();
+            getChannels();
         }
         rvHomeRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), rvHomeRecyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
@@ -89,7 +87,46 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onLongClick(View view, int position) {
-                ChannelItem channelItem = channelsList.get(position);
+                final ChannelItem channelItem = channelsList.get(position);
+
+                final Dialog dialog= new Dialog(getActivity());
+                dialog.setContentView(R.layout.customdialog_deletechannelmember);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                TextView remove = dialog.findViewById(R.id.tvCdcmHeading);
+                remove.setText("Remove "+channelItem.getChannelName()+" ?");
+
+                Button ok = dialog.findViewById(R.id.btnCdcmOk);
+                ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        sharedPreferences = getActivity().getSharedPreferences("BASE",Context.MODE_PRIVATE);
+                        new DeleteChannelAsync(sharedPreferences.getString("teamSlug",""),channelItem.getChannelSlug(),getActivity()){
+
+                            @Override
+                            protected void onPostExecute(Boolean result) {
+                                if(!result)
+                                {
+                                    return;
+                                }
+                                getChannels();
+                                dialog.dismiss();
+                            }
+
+                        }.execute();
+                    }
+                });
+
+                Button cancel = dialog.findViewById(R.id.btnCdcmCancel);
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+
             }
         }));
     }
@@ -112,5 +149,18 @@ public class HomeFragment extends Fragment {
         {
             Toast.makeText(getActivity(), "Don't have any channel", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void getChannels()
+    {
+        new ListChannelAsync(sharedPreferences.getString("teamSlug",""),getActivity()){
+            @Override
+            protected void onPostExecute(List<Channel> result) {
+                super.onPostExecute(result);
+                // Do something with result here
+                prepareMyTaskData(result);
+            }
+
+        }.execute();
     }
 }

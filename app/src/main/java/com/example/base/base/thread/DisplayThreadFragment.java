@@ -1,8 +1,11 @@
 package com.example.base.base.thread;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -15,10 +18,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.base.Models.Thread;
 import com.example.base.base.R;
+import com.example.base.base.async.thread.DeleteThreadAsync;
 import com.example.base.base.async.thread.ListThreadAsync;
 import com.example.base.base.message_format.MessageFragment;
 import com.example.base.base.personalmessage.PersonalMessage;
@@ -94,7 +100,41 @@ public class DisplayThreadFragment extends Fragment {
 
             @Override
             public void onLongClick(View view, int position) {
-                DisplayThread displayThread = displayThreadsList.get(position);
+                final DisplayThread displayThread = displayThreadsList.get(position);
+
+                final Dialog dialog= new Dialog(getActivity());
+                dialog.setContentView(R.layout.customdialog_deletechannelmember);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                TextView remove = dialog.findViewById(R.id.tvCdcmHeading);
+                remove.setText("Remove "+displayThread.getThreadName()+" ?");
+
+                Button ok = dialog.findViewById(R.id.btnCdcmOk);
+                ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        sharedPreferences = getActivity().getSharedPreferences("BASE",Context.MODE_PRIVATE);
+                        new DeleteThreadAsync(sharedPreferences.getString("teamSlug","")
+                                ,displayThread.getChannelSlug(),displayThread.getThreadSlug(),getActivity()){
+                            @Override
+                            protected void onPostExecute(Boolean result) {
+                                getThreads();
+                                dialog.dismiss();
+                            }
+
+                        }.execute();
+                    }
+                });
+
+                Button cancel = dialog.findViewById(R.id.btnCdcmCancel);
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
             }
         }));
 
@@ -106,15 +146,7 @@ public class DisplayThreadFragment extends Fragment {
             this.channelSlug = i.getExtras().getString("channelSlugName");
             if(sharedPreferences.contains("teamSlug"))
             {
-                this.teamSlug = sharedPreferences.getString("teamSlug","");
-                new ListThreadAsync(this.teamSlug,this.channelSlug,getActivity())
-                {
-                    @Override
-                    protected void onPostExecute(List<Thread> result) {
-                        super.onPostExecute(result);
-                        prepareMyTaskData(result);
-                    }
-                }.execute();
+                getThreads();
             }
             else
             {
@@ -142,5 +174,17 @@ public class DisplayThreadFragment extends Fragment {
         {
             Toast.makeText(getActivity(), "No Thread Found", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void getThreads(){
+        this.teamSlug = sharedPreferences.getString("teamSlug","");
+        new ListThreadAsync(this.teamSlug,this.channelSlug,getActivity())
+        {
+            @Override
+            protected void onPostExecute(List<Thread> result) {
+                super.onPostExecute(result);
+                prepareMyTaskData(result);
+            }
+        }.execute();
     }
 }

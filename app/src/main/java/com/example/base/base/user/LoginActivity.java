@@ -1,16 +1,21 @@
 package com.example.base.base.user;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.base.base.NavigationBarActivity;
 import com.example.base.base.singleton.BaseManager;
 import com.example.base.base.R;
 import com.example.base.base.async.user.LoginUserAsync;
+import com.example.base.base.team.TeamListActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -18,7 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     Button login;
     TextView createAccount;
     String email_value,password_value;
-    //SharedPreferences sharedPreferences;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +55,30 @@ public class LoginActivity extends AppCompatActivity {
 
                 if(email_value.length()!=0 && password_value.length()!=0)
                 {
-                        new LoginUserAsync(email_value,password_value,LoginActivity.this).execute();
+                        new LoginUserAsync(email_value,password_value,LoginActivity.this){
+                            protected void onPostExecute(String result) {
+
+                                if(result.contains("Error"))
+                                {
+                                    Toast.makeText(getApplicationContext(), "Incorrect Credentials", Toast.LENGTH_SHORT).show();
+                                }
+                                else if(result.contains("Login Successful"))
+                                {
+                                    sharedPreferences = getSharedPreferences("BASE",Context.MODE_PRIVATE);
+                                    sharedPreferences = getApplicationContext().getSharedPreferences("BASE", Context.MODE_PRIVATE);
+                                    Intent i;
+                                    if(sharedPreferences.contains("teamSlug")) {
+                                        i = new Intent(getApplicationContext(), NavigationBarActivity.class);
+                                    }
+                                    else
+                                    {
+                                        i = new Intent(getApplicationContext(), TeamListActivity.class);
+                                    }
+                                    startActivity(i);
+                                    finish();
+                                }
+                            }
+                        }.execute();
                         //BaseManager.getInstance(LoginActivity.this);
                 }
                 else

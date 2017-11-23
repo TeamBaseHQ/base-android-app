@@ -110,7 +110,19 @@ public class TeamListActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent i = new Intent(TeamListActivity.this,NavigationBarActivity.class);
-        startActivity(i);
+        try {
+            if (sharedPreferences.contains("teamSlug")) {
+                Intent i = new Intent(TeamListActivity.this, NavigationBarActivity.class);
+                startActivity(i);
+            } else {
+                finish();
+            }
+        }
+        catch(NullPointerException e)
+        {
+            finish();
+        }catch(Exception e){
+
+        }
     }
 }

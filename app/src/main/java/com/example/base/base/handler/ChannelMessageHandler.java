@@ -1,10 +1,7 @@
 package com.example.base.base.handler;
 
 import android.app.Activity;
-import android.content.Context;
-import android.widget.Toast;
 
-import com.example.base.base.team.TeamListActivity;
 import com.pusher.client.channel.SubscriptionEventListener;
 
 /**

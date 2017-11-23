@@ -2,6 +2,7 @@ package com.example.base.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -24,9 +25,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.base.Models.Channel;
+import com.example.base.base.actions.AddMessageToList;
 import com.example.base.base.async.channel.ListChannelAsync;
 import com.example.base.base.async.user.GetUserAsync;
 import com.example.base.base.channel.CreateChannelFragment;
+import com.example.base.base.service.BackgroundMessageService;
 import com.example.base.base.tabs.TabFragment;
 import com.example.base.base.tabs.ThreadTabFragment;
 import com.example.base.base.team.TeamListActivity;
@@ -47,6 +50,10 @@ public class NavigationBarActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        startService(new Intent(NavigationBarActivity.this, BackgroundMessageService.class));
+        registerReceiver(new AddMessageToList(), new IntentFilter(BackgroundMessageService.BROADCAST_ACTION));
+
         setContentView(R.layout.activity_navigation_bar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         sharedPreferences = getSharedPreferences("BASE", Context.MODE_PRIVATE);
@@ -170,6 +177,10 @@ public class NavigationBarActivity extends AppCompatActivity
             Intent i = new Intent(NavigationBarActivity.this,TeamListActivity.class);
             startActivity(i);
         }
+        else if(id == R.id.nav_starred)
+        {
+            stopService(new Intent(NavigationBarActivity.this, BackgroundMessageService.class));
+        }
         else
         {
             if(channelName_list.containsValue(item.getTitle())){
@@ -223,8 +234,11 @@ public class NavigationBarActivity extends AppCompatActivity
         TextView userName = (TextView) findViewById(R.id.nav_txtProfileName);
         ImageView userPic = (ImageView) findViewById(R.id.nav_ivProfilePicture);
         userName.setText(userName_value);
-        Picasso.with(this)
-                .load(sharedPreferences.getString("User_image",""))
-                .into(userPic);
+        String user_Image = sharedPreferences.getString("User_image","");
+        if(user_Image!="") {
+            Picasso.with(this)
+                    .load(user_Image)
+                    .into(userPic);
+        }
     }
 }

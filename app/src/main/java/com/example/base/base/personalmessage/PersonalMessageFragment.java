@@ -247,6 +247,7 @@ public class PersonalMessageFragment extends Fragment {
                 {
                     final Dialog dialog= new Dialog(getActivity());
                     dialog.setContentView(R.layout.customdialog_deletechannelmember);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
                     TextView tvHeading = dialog.findViewById(R.id.tvCdcmHeading);
                     tvHeading.setText("Remove "+personalMessage.getMemberName()+" ?");
