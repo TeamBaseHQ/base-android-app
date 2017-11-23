@@ -61,20 +61,24 @@ public class BackgroundMessageService extends Service{
 
         prepareEvent();
 
-        SharedPreferences sharedPreferences = getSharedPreferences("BASE", Context.MODE_PRIVATE);
-        new ListChannelAsync(sharedPreferences.getString("teamSlug", ""), getApplicationContext()) {
-            @Override
-            protected void onPostExecute(List<com.base.Models.Channel> result) {
-                prepareChannel(result);
-                BackgroundMessageService.pusher.connect();
-            }
-        }.execute();
+        try {
+            SharedPreferences sharedPreferences = getSharedPreferences("BASE", Context.MODE_PRIVATE);
+            new ListChannelAsync(sharedPreferences.getString("teamSlug", ""), getApplicationContext()) {
+                @Override
+                protected void onPostExecute(List<com.base.Models.Channel> result) {
+                    prepareChannel(result);
+                    BackgroundMessageService.pusher.connect();
+                }
+            }.execute();
+        }catch(Exception e){
+
+        }
 
     }
 
     public void prepareChannel(List<com.base.Models.Channel> channels)
     {
-        if(channels.isEmpty())
+        if(channels==null || channels.isEmpty())
         {
             return;
         }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.base.Auth.AccessToken;
@@ -20,6 +21,9 @@ import com.example.base.base.user.LoginActivity;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.nio.file.FileSystem;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Created by Devam on 23-Nov-17.
@@ -41,7 +45,8 @@ public class UploadImageAsync extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        //requestHTTP(data);
+        Log.d("BASEUPLOAD", file.getAbsolutePath());
+        //Paths path = new Paths();
         try {
             Media media = UploadImageAsync.base.userService().uploadProfilePicture(file);
             return "Image Uploaded";
@@ -61,7 +66,7 @@ public class UploadImageAsync extends AsyncTask<String, Void, String> {
     protected void onPreExecute() {
         pb = new ProgressDialog(this.context);
         pb.setCancelable(false);
-        pb.setMessage("Checking Credentials...");
+        pb.setMessage("Image Uploading...");
         pb.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         pb.setProgress(0);
         pb.setMax(100);
@@ -79,5 +84,3 @@ public class UploadImageAsync extends AsyncTask<String, Void, String> {
         pb.show();
     }
 }
-
-

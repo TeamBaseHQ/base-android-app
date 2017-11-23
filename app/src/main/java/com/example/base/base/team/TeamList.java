@@ -6,10 +6,9 @@ package com.example.base.base.team;
 
 public class TeamList  {
 
-    String teamName,teamMessage,teamSlug;
-    int teamPic;
+    String teamName,teamMessage,teamSlug,teamPic;
 
-    public TeamList(String teamName,String teamSlug,String teamMessage,int teamPic)
+    public TeamList(String teamName,String teamSlug,String teamMessage,String teamPic)
     {
         this.teamMessage = teamMessage;
         this.teamName = teamName;
@@ -17,7 +16,7 @@ public class TeamList  {
         this.teamSlug = teamSlug;
     }
 
-    public int getTeamPic() {
+    public String getTeamPic() {
         return teamPic;
     }
 
@@ -41,7 +40,7 @@ public class TeamList  {
         this.teamName = teamName;
     }
 
-    public void setTeamPic(int teamPic) {
+    public void setTeamPic(String teamPic) {
         this.teamPic = teamPic;
     }
 

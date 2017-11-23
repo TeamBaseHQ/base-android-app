@@ -2,41 +2,41 @@ package com.example.base.base.async.team;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import com.base.Base;
 import com.base.Exceptions.BaseHttpException;
+import com.base.Exceptions.TeamNotFound;
 import com.base.Models.Team;
 import com.example.base.base.singleton.BaseManager;
-import com.example.base.base.team.TeamListActivity;
 
 /**
- * Created by Devam on 13-Nov-17.
+ * Created by Devam on 24-Nov-17.
  */
 
-public class CreateTeamAsync extends AsyncTask<String, Void, Team> {
+public class GetTeamAsync extends AsyncTask<String, Void, Team> {
 
-    String teamName,teamDescription;
+    String teamSlug;
     ProgressDialog pb;
     Context context;
     private static Base base;
 
-    public CreateTeamAsync(String teamName, String teamDescription, Context context){
-        this.teamName = teamName;
-        this.teamDescription = teamDescription;
+    public GetTeamAsync(String teamSlug, Context context){
+        this.teamSlug = teamSlug;
         this.context = context;
-        CreateTeamAsync.base = BaseManager.getInstance(context);
+        GetTeamAsync.base = BaseManager.getInstance(context);
     }
 
     @Override
     protected Team doInBackground(String... params) {
         //requestHTTP(data);
         try {
-            Team team = CreateTeamAsync.base.teamService().createTeam(teamName, teamDescription);
+            Team team = GetTeamAsync.base.teamService().getTeam(teamSlug);
             return team;
-        } catch (BaseHttpException e) {
+        }catch (TeamNotFound teamNotFound) {
+            teamNotFound.printStackTrace();
+            return null;
+        }catch (BaseHttpException e) {
             e.printStackTrace();
             return null;
         }
@@ -69,4 +69,5 @@ public class CreateTeamAsync extends AsyncTask<String, Void, Team> {
         pb.show();
     }
 }
+
 

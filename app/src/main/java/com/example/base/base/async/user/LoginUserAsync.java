@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.base.Auth.AccessToken;
@@ -42,13 +43,16 @@ public class LoginUserAsync extends AsyncTask<String, Void, String> {
         //requestHTTP(data);
         AccessToken accessToken = null;
         try {
+            Log.d("AccessDone","getting token");
             // Log in user and get access token
             accessToken = LoginUserAsync.base.getUserAccessToken(email, password);
+            Log.d("AccessDone","token gotcha");
 
             // Serialize the access token
             AccessTokenSerializable accessTokenSerializable = new AccessTokenSerializable();
             accessTokenSerializable.setAccessToken(accessToken);
 
+            Log.d("AccessDone","token set");
             // Convert token to JSON
             Gson gson = new Gson();
             String json = gson.toJson(accessTokenSerializable);

@@ -49,6 +49,10 @@ public class BaseManager{
                 base.getClient().setAccessToken(accessToken);
             }
         }
+        else
+        {
+            base.getClient().setAccessToken(accessToken);
+        }
 
         Log.d("PUSHER", "CONNECTING....");
         Connection pusherConnection = PusherManager.getInstance(context).getConnection();

@@ -197,7 +197,7 @@ public class PeopleFragment extends Fragment {
         try{
             if(!users.isEmpty()) {
                 for (User user : users) {
-                    people = new People(user.getName(), "Product Manager", Helper.resolveUrl(user.getPicture(),"thumb"),user.getId());
+                    people = new People(user.getName(), "Product Manager", Helper.resolveUrl(user.getPicture(),"original"),user.getId());
                     this. peoplesList.add(people);
                 }
                 peopleAdapter.notifyDataSetChanged();

@@ -50,13 +50,11 @@ public class NavigationBarActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         startService(new Intent(NavigationBarActivity.this, BackgroundMessageService.class));
         registerReceiver(new AddMessageToList(), new IntentFilter(BackgroundMessageService.BROADCAST_ACTION));
-
         setContentView(R.layout.activity_navigation_bar);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         sharedPreferences = getSharedPreferences("BASE", Context.MODE_PRIVATE);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(sharedPreferences.getString("teamName","Base"));
         setSupportActionBar(toolbar);
 

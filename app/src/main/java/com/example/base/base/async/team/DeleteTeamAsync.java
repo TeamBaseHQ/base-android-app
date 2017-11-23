@@ -6,40 +6,33 @@ import android.os.AsyncTask;
 
 import com.base.Base;
 import com.base.Exceptions.BaseHttpException;
-import com.base.Exceptions.Http.InputError;
 import com.base.Exceptions.TeamNotFound;
 import com.example.base.base.singleton.BaseManager;
 
 /**
- * Created by Devam on 21-Nov-17.
+ * Created by Devam on 23-Nov-17.
  */
 
-public class DeleteTeamMemberAsync extends AsyncTask<String, Void, Boolean> {
+public class DeleteTeamAsync extends AsyncTask<String, Void, Boolean> {
 
     String teamSlug;
-    int memberId;
     ProgressDialog pb;
     Context context;
     private static Base base;
 
-    public DeleteTeamMemberAsync(String teamSlug,int memberId , Context context){
+    public DeleteTeamAsync(String teamSlug, Context context){
         this.teamSlug = teamSlug;
         this.context = context;
-        this.memberId = memberId;
-        DeleteTeamMemberAsync.base = BaseManager.getInstance(context);
+        DeleteTeamAsync.base = BaseManager.getInstance(context);
     }
 
     @Override
     protected Boolean doInBackground(String... params) {
 
         try {
-            Boolean result = DeleteTeamMemberAsync.base.teamMemberService()
-                    .deleteTeamMember(teamSlug, String.valueOf(memberId));
+            Boolean result = DeleteTeamAsync.base.teamService().deleteTeam(teamSlug);
             return result;
         } catch (TeamNotFound e) {
-            return false;
-        } catch (BaseHttpException e) {
-            // Log Error
             return false;
         }
 

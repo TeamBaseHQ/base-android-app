@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.base.Models.Message;
+import com.example.base.base.serializ.AccessTokenSerializable;
+import com.google.gson.Gson;
+
 /**
  * Created by Devam on 23-Nov-17.
  */
@@ -18,7 +22,8 @@ public class AddMessageToList extends BroadcastReceiver {
         String channelName = intent.getStringExtra("channelName");
 
         if(eventName.equals("message.received")){
-            Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
+            Gson gson = new Gson();
+            Message message = gson.fromJson(data, Message.class);
         }
     }
 }

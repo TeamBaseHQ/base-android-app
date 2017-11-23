@@ -177,7 +177,7 @@ public class PersonalMessageFragment extends Fragment {
                                 }
                                 if(flag==0)
                                 {
-                                    AddChannelMember addChannelMember = new AddChannelMember(user.getName(),Helper.resolveUrl(user.getPicture(),"thumb"),user.getId());
+                                    AddChannelMember addChannelMember = new AddChannelMember(user.getName(),Helper.resolveUrl(user.getPicture(),"original"),user.getId());
                                     addChannelMembers.add(addChannelMember);
                                 }
                                 flag=0;
