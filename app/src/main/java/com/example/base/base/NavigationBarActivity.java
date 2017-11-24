@@ -1,5 +1,6 @@
 package com.example.base.base;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -15,6 +16,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -25,15 +27,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.base.Models.Channel;
+import com.example.base.base.actions.AddChannelMemberToList;
+import com.example.base.base.actions.AddChannelToList;
 import com.example.base.base.actions.AddMessageToList;
+import com.example.base.base.actions.HandlesAction;
 import com.example.base.base.async.channel.ListChannelAsync;
 import com.example.base.base.async.user.GetUserAsync;
 import com.example.base.base.channel.CreateChannelFragment;
+import com.example.base.base.listener.channel.ChannelMemberWasAdded;
+import com.example.base.base.listener.channel.ChannelWasCreated;
 import com.example.base.base.service.BackgroundMessageService;
 import com.example.base.base.tabs.TabFragment;
 import com.example.base.base.tabs.ThreadTabFragment;
 import com.example.base.base.team.TeamListActivity;
 import com.example.base.base.thread.AllThreadsFragment;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -42,7 +50,7 @@ import java.util.List;
 import java.util.Map;
 
 public class NavigationBarActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,HandlesAction {
 
     SharedPreferences sharedPreferences;
     Menu menu;
@@ -50,7 +58,17 @@ public class NavigationBarActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         startService(new Intent(NavigationBarActivity.this, BackgroundMessageService.class));
+        registerReceiver(
+                new AddChannelToList(this),
+                new IntentFilter(ChannelWasCreated.ACTION)
+        );
+
+        registerReceiver(
+                new AddChannelMemberToList(this),
+                new IntentFilter(ChannelMemberWasAdded.ACTION)
+        );
 
         setContentView(R.layout.activity_navigation_bar);
         sharedPreferences = getSharedPreferences("BASE", Context.MODE_PRIVATE);
@@ -237,6 +255,23 @@ public class NavigationBarActivity extends AppCompatActivity
             Picasso.with(this)
                     .load(user_Image)
                     .into(userPic);
+        }
+    }
+
+    @Override
+    public void handle(String eventName, String channelName, String data) {
+        if(eventName.equals(ChannelMemberWasAdded.ACTION))
+        {
+            Channel channel = (new Gson()).fromJson(data,Channel.class);
+
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext());
+            mBuilder.setSmallIcon(R.drawable.appicon);
+            mBuilder.setContentTitle("Member Added To "+channel.getName());
+            //mBuilder.setContentText(channel.getTeam().get+"");
+            NotificationManager mNotificationManager = (NotificationManager)
+                    this.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            // notificationID allows you to update the notification later on.
+            mNotificationManager.notify(1, mBuilder.build());
         }
     }
 }

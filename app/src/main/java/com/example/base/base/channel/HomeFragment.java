@@ -1,7 +1,9 @@
 package com.example.base.base.channel;
 
 import android.app.Dialog;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -10,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,21 +24,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.base.base.R;
+import com.example.base.base.actions.AddChannelToList;
+import com.example.base.base.actions.HandlesAction;
+import com.example.base.base.actions.RemoveChannelFromList;
 import com.example.base.base.async.channel.DeleteChannelAsync;
 import com.example.base.base.async.channel.ListChannelAsync;
 
 import com.base.Models.Channel;
-import com.example.base.base.handler.ChannelMessageHandler;
+import com.example.base.base.listener.channel.ChannelWasCreated;
+import com.example.base.base.listener.channel.ChannelWasDeleted;
 import com.example.base.base.recyclerview_necessarydata.RecyclerTouchListener;
 import com.example.base.base.tabs.ThreadTabFragment;
-import com.pusher.client.Pusher;
-import com.pusher.client.PusherOptions;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements HandlesAction {
 
     private List<ChannelItem> channelsList = new ArrayList<>();
     private RecyclerView rvHomeRecyclerView;
@@ -47,6 +52,15 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        getActivity().registerReceiver(
+                new AddChannelToList(this),
+                new IntentFilter(ChannelWasCreated.ACTION)
+        );
+
+        getActivity().registerReceiver(
+                new RemoveChannelFromList(this),
+                new IntentFilter(ChannelWasDeleted.ACTION)
+        );
         //returning our layout file
         //change R.layout.yourlayoutfilename for each of your fragments
         return inflater.inflate(R.layout.fragment_home, container, false);
@@ -75,6 +89,22 @@ public class HomeFragment extends Fragment {
         {
             getChannels();
         }
+
+        starred.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Code for norification
+                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getActivity());
+                mBuilder.setSmallIcon(R.drawable.appicon);
+                mBuilder.setContentTitle("Notification Alert, Click Me!");
+                mBuilder.setContentText("Hi, This is Android Notification Detail!");
+                NotificationManager mNotificationManager = (NotificationManager)
+                        getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+                // notificationID allows you to update the notification later on.
+                mNotificationManager.notify(1, mBuilder.build());
+            }
+        });
+
         rvHomeRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), rvHomeRecyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
@@ -165,5 +195,14 @@ public class HomeFragment extends Fragment {
             }
 
         }.execute();
+    }
+
+    @Override
+    public void handle(String eventName, String channelName, String data) {
+        if(eventName.equals(ChannelWasCreated.ACTION)){
+
+        }else if(eventName.equals(ChannelWasDeleted.ACTION)){
+
+        }
     }
 }

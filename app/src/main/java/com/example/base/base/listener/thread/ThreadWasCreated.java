@@ -1,4 +1,4 @@
-package com.example.base.base.listener.channel;
+package com.example.base.base.listener.thread;
 
 import android.app.Service;
 import android.content.Intent;
@@ -10,11 +10,11 @@ import com.pusher.client.channel.SubscriptionEventListener;
  * Created by Devam on 22-Nov-17.
  */
 
-public class ChannelMemberWasRemoved extends BaseListener {
+public class ThreadWasCreated extends BaseListener {
 
-    public static final String ACTION = "channel.member_removed";
+    public static final String ACTION = "thread.created";
 
-    public ChannelMemberWasRemoved(Intent intent, Service service) {
+    public ThreadWasCreated(Intent intent, Service service) {
         super(intent, service);
     }
 

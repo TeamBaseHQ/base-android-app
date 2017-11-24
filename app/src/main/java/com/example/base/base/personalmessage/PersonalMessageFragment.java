@@ -3,6 +3,7 @@ package com.example.base.base.personalmessage;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -24,25 +25,31 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.base.Models.Channel;
 import com.base.Models.User;
+import com.example.base.base.actions.AddChannelMemberToList;
+import com.example.base.base.actions.HandlesAction;
+import com.example.base.base.actions.RemoveChannelMemberFromList;
 import com.example.base.base.async.channel.AddChannelMemberAsync;
 import com.example.base.base.async.channel.DeleteChannelMemberAsync;
 import com.example.base.base.async.channel.ListChannelMemberNameAsync;
 import com.example.base.base.async.member.ListTeamMemberAsync;
 import com.example.base.base.channel.AddChannelMember;
 import com.example.base.base.channel.AddChannelMemberAdapter;
-import com.example.base.base.channel.ChannelItem;
 import com.example.base.base.helper.Helper;
+import com.example.base.base.listener.channel.ChannelMemberWasAdded;
+import com.example.base.base.listener.channel.ChannelMemberWasRemoved;
 import com.example.base.base.message_format.MessageFragment;
 import com.example.base.base.R;
 import com.example.base.base.recyclerview_necessarydata.DividerItemDecoration;
 import com.example.base.base.recyclerview_necessarydata.RecyclerTouchListener;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class PersonalMessageFragment extends Fragment {
+public class PersonalMessageFragment extends Fragment implements HandlesAction {
 
     private List<PersonalMessage> personalMessagesList = new ArrayList<>();
     private RecyclerView rvPersonalMessageRecyclerView;
@@ -50,13 +57,22 @@ public class PersonalMessageFragment extends Fragment {
     SharedPreferences sharedPreferences;
     FloatingActionButton floatingActionButton;
     private int choice=0;
-    private String channelSlug;
+    private String channelSlug,teamSlug;
     List<User> teamUser;
     List<User> channelUser;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        getActivity().registerReceiver(
+                new AddChannelMemberToList(this,getActivity()),
+                new IntentFilter(ChannelMemberWasAdded.ACTION)
+        );
+
+        getActivity().registerReceiver(
+                new RemoveChannelMemberFromList(this),
+                new IntentFilter(ChannelMemberWasRemoved.ACTION)
+        );
         //returning our layout file
         //change R.layout.yourlayoutfilename for each of your fragments
         return inflater.inflate(R.layout.fragment_personal_message, container, false);
@@ -84,6 +100,7 @@ public class PersonalMessageFragment extends Fragment {
 
         if(choice == 1)
         {
+
             floatingActionButton.setVisibility(View.VISIBLE);
             floatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -104,7 +121,7 @@ public class PersonalMessageFragment extends Fragment {
 
                     SharedPreferences sharedPreferences_custom = getActivity()
                             .getSharedPreferences("BASE",Context.MODE_PRIVATE);
-                    final String teamSlug_custom = sharedPreferences_custom.getString("teamSlug","");
+                    teamSlug = sharedPreferences_custom.getString("teamSlug","");
                     Intent i = getActivity().getIntent();
 
                     final List<AddChannelMember> addChannelMembers = new ArrayList<>();
@@ -123,7 +140,7 @@ public class PersonalMessageFragment extends Fragment {
                                 @Override
                                 protected void onPostExecute(Boolean result) {
                                     if(result){
-                                        setData(teamSlug_custom,addChannelMembers,addChannelMemberAdapter);
+                                        setData(teamSlug,addChannelMembers,addChannelMemberAdapter);
                                     }
                                     else
                                     {
@@ -139,7 +156,7 @@ public class PersonalMessageFragment extends Fragment {
                         }
                     }));
 
-                    setData(teamSlug_custom,addChannelMembers,addChannelMemberAdapter);
+                    setData(teamSlug,addChannelMembers,addChannelMemberAdapter);
                     dialog.show();
                 }//end onClick
 
@@ -206,6 +223,7 @@ public class PersonalMessageFragment extends Fragment {
         try {
             if (i.getExtras().containsKey("flag") && i.getExtras().containsKey("channelSlugName")) {
                 if (this.choice == 1) {
+
                     sharedPreferences = getActivity().getSharedPreferences("BASE", Context.MODE_PRIVATE);
                     /*new ListChannelMemberNameAsync(sharedPreferences.getString("teamSlug", ""), i.getExtras().getString("channelSlugName"), getActivity()) {
                         @Override
@@ -315,5 +333,29 @@ public class PersonalMessageFragment extends Fragment {
             }
 
         }.execute();
+    }
+
+    @Override
+    public void handle(String eventName, String channelName, String data) {
+        Toast.makeText(getActivity(), "temptmeptmeptmep", Toast.LENGTH_SHORT).show();
+        if(eventName.equals(ChannelMemberWasAdded.ACTION)){
+            teamSlug = getActivity().getSharedPreferences("BASE",Context.MODE_PRIVATE)
+                    .getString("teamSlug","");
+            Log.d("BAANCHOD",data);
+            Channel channel = (new Gson()).fromJson(data,Channel.class);
+            if(channel.getSlug().equals(channelSlug) && channel.getTeam().getSlug().equals(teamSlug))
+            {
+                getChannelMember(channel.getTeam().getSlug(),channel.getSlug());
+            }
+
+        }else if(eventName.equals(ChannelMemberWasRemoved.ACTION)){
+            teamSlug = getActivity().getSharedPreferences("BASE",Context.MODE_PRIVATE)
+                    .getString("teamSlug","");
+            Channel channel = (new Gson()).fromJson(data,Channel.class);//add member
+            if(channel.getSlug().equals(channelSlug) && channel.getTeam().getSlug().equals(teamSlug))
+            {
+                getChannelMember(channel.getTeam().getSlug(),channel.getSlug());
+            }
+        }
     }
 }

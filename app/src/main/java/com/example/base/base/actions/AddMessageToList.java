@@ -18,41 +18,15 @@ import com.google.gson.Gson;
  * Created by Devam on 23-Nov-17.
  */
 
-public class AddMessageToList extends BroadcastReceiver {
-    private MessageFragment messageFragment = null;
+public class AddMessageToList extends BaseAction {
 
-    public AddMessageToList(MessageFragment messageFragment) {
-        this.messageFragment = messageFragment;
+    public AddMessageToList(HandlesAction actionHandler) {
+        super(actionHandler);
     }
 
     @Override
-    public void onReceive(Context context, Intent intent) {
-        String data = intent.getStringExtra("data");
-        String eventName = intent.getStringExtra("eventName");
-        String channelName = intent.getStringExtra("channelName");
-
-
-        /*//code for notification
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
-        mBuilder.setSmallIcon(R.drawable.appicon);
-        mBuilder.setContentTitle("Notification Alert, Click Me!");
-        mBuilder.setContentText("Hi, This is Android Notification Detail!");
-        NotificationManager mNotificationManager = (NotificationManager)
-                context.getSystemService(Context.NOTIFICATION_SERVICE);
-        // notificationID allows you to update the notification later on.
-        mNotificationManager.notify(1, mBuilder.build());*/
-
-        if(eventName.equals("message.received")){
-            Log.d("LODU", data);
-            Gson gson = new Gson();
-            Message message = gson.fromJson(data, Message.class);
-
-            if (this.messageFragment == null){
-                // Send Notification ;)
-            } else {
-                this.messageFragment.handleIncomingMessage(message);
-            }// try kar. open kar k
-            //what if messageFragment null hoga ?
-        }
+    public void handle(String eventName, String channelName, String data) {
+        super.handle(eventName, channelName, data);
+        // Send Notification
     }
 }

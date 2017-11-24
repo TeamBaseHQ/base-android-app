@@ -3,27 +3,23 @@ package com.example.base.base.listener.channel;
 import android.app.Service;
 import android.content.Intent;
 
+import com.example.base.base.listener.BaseListener;
 import com.pusher.client.channel.SubscriptionEventListener;
 
 /**
  * Created by Devam on 22-Nov-17.
  */
 
-public class ChannelWasDeleted implements SubscriptionEventListener {
+public class ChannelWasDeleted extends BaseListener {
 
-    Service service;
-    Intent intent;
-    public ChannelWasDeleted(Intent intent, Service service)
-    {
-        this.service = service;
-        this.intent = intent;
+    public static final String ACTION = "channel.deleted";
+
+    public ChannelWasDeleted(Intent intent, Service service) {
+        super(intent, service);
     }
 
     @Override
-    public void onEvent(String channelName, String eventName, String data) {
-        intent.putExtra("eventName", eventName);
-        intent.putExtra("channelName", channelName);
-        intent.putExtra("data", data);
-        service.sendBroadcast(intent);
+    public String getActionName() {
+        return ACTION;
     }
 }

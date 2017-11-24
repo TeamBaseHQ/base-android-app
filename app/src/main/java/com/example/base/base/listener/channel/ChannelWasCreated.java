@@ -4,27 +4,23 @@ import android.app.Service;
 import android.content.ContextWrapper;
 import android.content.Intent;
 
+import com.example.base.base.listener.BaseListener;
 import com.pusher.client.channel.SubscriptionEventListener;
 
 /**
  * Created by Devam on 22-Nov-17.
  */
 
-public class ChannelWasCreated implements SubscriptionEventListener {
+public class ChannelWasCreated extends BaseListener {
 
-    Service service;
-    Intent intent;
-    public ChannelWasCreated(Intent intent, Service service)
-    {
-        this.service = service;
-        this.intent = intent;
+    public static final String ACTION = "channel.created";
+
+    public ChannelWasCreated(Intent intent, Service service) {
+        super(intent, service);
     }
 
     @Override
-    public void onEvent(String channelName, String eventName, String data) {
-        intent.putExtra("eventName", eventName);
-        intent.putExtra("channelName", channelName);
-        intent.putExtra("data", data);
-        service.sendBroadcast(intent);
+    public String getActionName() {
+        return ACTION;
     }
 }

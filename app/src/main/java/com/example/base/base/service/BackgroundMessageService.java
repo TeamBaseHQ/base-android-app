@@ -5,31 +5,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.base.BaseClient;
 import com.example.base.base.async.channel.ListChannelAsync;
-import com.example.base.base.async.channel.ListChannelMemberNameAsync;
 import com.example.base.base.listener.channel.ChannelMemberWasAdded;
 import com.example.base.base.listener.channel.ChannelMemberWasRemoved;
 import com.example.base.base.listener.channel.ChannelWasCreated;
 import com.example.base.base.listener.channel.ChannelWasDeleted;
-import com.example.base.base.listener.channel.ChannelWasUpdated;
-import com.example.base.base.listener.channel.message.MessageWasReceived;
-import com.example.base.base.listener.channel.thread.ThreadWasCreated;
-import com.example.base.base.listener.channel.thread.ThreadWasDeleted;
-import com.example.base.base.listener.channel.thread.ThreadWasUpdated;
-import com.example.base.base.singleton.BaseManager;
+import com.example.base.base.listener.message.MessageWasReceived;
+import com.example.base.base.listener.thread.ThreadWasCreated;
+import com.example.base.base.listener.thread.ThreadWasDeleted;
 import com.example.base.base.singleton.PusherManager;
 import com.pusher.client.Pusher;
-import com.pusher.client.PusherOptions;
 import com.pusher.client.channel.Channel;
 import com.pusher.client.channel.ChannelEventListener;
-import com.pusher.client.channel.PrivateChannel;
-import com.pusher.client.channel.PrivateChannelEventListener;
-import com.pusher.client.channel.SubscriptionEventListener;
-import com.pusher.client.util.HttpAuthorizer;
 
 import java.util.HashMap;
 import java.util.List;
@@ -103,15 +92,15 @@ public class BackgroundMessageService extends Service{
     public void prepareEvent()
     {
         events = new HashMap<>();
-//        events.put("channel.created",new ChannelWasCreated(intent,this));
+        events.put(ChannelWasCreated.ACTION,new ChannelWasCreated(intent,this));
 //        events.put("channel.updated",new ChannelWasUpdated(intent,this));
-//        events.put("channel.deleted",new ChannelWasDeleted(intent,this));
-//        events.put("channel.member_added",new ChannelMemberWasAdded(intent,this));
-//        events.put("channel.member_removed",new ChannelMemberWasRemoved(intent,this));
-//        events.put("thread.created",new ThreadWasCreated(intent,this));
+        events.put(ChannelWasDeleted.ACTION,new ChannelWasDeleted(intent,this));
+        events.put(ChannelMemberWasAdded.ACTION,new ChannelMemberWasAdded(intent,this));
+        events.put(ChannelMemberWasRemoved.ACTION,new ChannelMemberWasRemoved(intent,this));
+        events.put(ThreadWasCreated.ACTION,new ThreadWasCreated(intent,this));
 //        events.put("thread.updated",new ThreadWasUpdated(intent,this));
-//        events.put("thread.deleted",new ThreadWasDeleted(intent,this));
-        events.put("message.received",new MessageWasReceived(intent,this));
+        events.put(ThreadWasDeleted.ACTION, new ThreadWasDeleted(intent,this));
+        events.put(MessageWasReceived.ACTION, new MessageWasReceived(intent,this));
     }
 
 

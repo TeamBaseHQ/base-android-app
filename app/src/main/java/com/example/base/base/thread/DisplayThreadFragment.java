@@ -3,6 +3,7 @@ package com.example.base.base.thread;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -24,10 +25,17 @@ import android.widget.Toast;
 
 import com.base.Models.Thread;
 import com.example.base.base.R;
+import com.example.base.base.actions.AddChannelMemberToList;
+import com.example.base.base.actions.AddThreadToList;
+import com.example.base.base.actions.HandlesAction;
+import com.example.base.base.actions.HighlighNewMessage;
+import com.example.base.base.actions.RemoveThreadFromList;
 import com.example.base.base.async.thread.DeleteThreadAsync;
 import com.example.base.base.async.thread.ListThreadAsync;
-import com.example.base.base.message_format.MessageFragment;
-import com.example.base.base.personalmessage.PersonalMessage;
+import com.example.base.base.listener.channel.ChannelMemberWasAdded;
+import com.example.base.base.listener.message.MessageWasReceived;
+import com.example.base.base.listener.thread.ThreadWasCreated;
+import com.example.base.base.listener.thread.ThreadWasDeleted;
 import com.example.base.base.recyclerview_necessarydata.DividerItemDecoration;
 import com.example.base.base.recyclerview_necessarydata.RecyclerTouchListener;
 import com.example.base.base.tabs.TabFragment;
@@ -37,7 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DisplayThreadFragment extends Fragment {
+public class DisplayThreadFragment extends Fragment implements HandlesAction {
 
     private List<DisplayThread> displayThreadsList = new ArrayList<>();
     private RecyclerView rvDisplayThreadRecyclerView;
@@ -48,6 +56,20 @@ public class DisplayThreadFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        getActivity().registerReceiver(
+                new HighlighNewMessage(this),
+                new IntentFilter(MessageWasReceived.ACTION)
+        );
+
+        getActivity().registerReceiver(
+                new AddThreadToList(this),
+                new IntentFilter(ThreadWasCreated.ACTION)
+        );
+
+        getActivity().registerReceiver(
+                new RemoveThreadFromList(this),
+                new IntentFilter(ThreadWasDeleted.ACTION)
+        );
         //returning our layout file
         //change R.layout.yourlayoutfilename for each of your fragments
         return inflater.inflate(R.layout.fragment_display_thread, container, false);
@@ -186,5 +208,17 @@ public class DisplayThreadFragment extends Fragment {
                 prepareMyTaskData(result);
             }
         }.execute();
+    }
+
+    @Override
+    public void handle(String eventName, String channelName, String data) {
+        //
+        if(eventName.equals(MessageWasReceived.ACTION)){
+
+        }else if(eventName.equals(ThreadWasCreated.ACTION)){
+
+        }else if(eventName.equals(ThreadWasDeleted.ACTION)){
+
+        }
     }
 }
