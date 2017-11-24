@@ -337,11 +337,9 @@ public class PersonalMessageFragment extends Fragment implements HandlesAction {
 
     @Override
     public void handle(String eventName, String channelName, String data) {
-        Toast.makeText(getActivity(), "temptmeptmeptmep", Toast.LENGTH_SHORT).show();
         if(eventName.equals(ChannelMemberWasAdded.ACTION)){
             teamSlug = getActivity().getSharedPreferences("BASE",Context.MODE_PRIVATE)
                     .getString("teamSlug","");
-            Log.d("BAANCHOD",data);
             Channel channel = (new Gson()).fromJson(data,Channel.class);
             if(channel.getSlug().equals(channelSlug) && channel.getTeam().getSlug().equals(teamSlug))
             {

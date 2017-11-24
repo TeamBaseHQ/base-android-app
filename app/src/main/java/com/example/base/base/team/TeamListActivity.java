@@ -84,6 +84,7 @@ public class TeamListActivity extends AppCompatActivity {
                 editor.commit();
                 Intent i = new Intent(TeamListActivity.this, NavigationBarActivity.class);
                 startActivity(i);
+                finish();
 
             }
             @Override
@@ -161,6 +162,7 @@ public class TeamListActivity extends AppCompatActivity {
             if (sharedPreferences.contains("teamSlug")) {
                 Intent i = new Intent(TeamListActivity.this, NavigationBarActivity.class);
                 startActivity(i);
+                finish();
             } else {
                 finish();
             }

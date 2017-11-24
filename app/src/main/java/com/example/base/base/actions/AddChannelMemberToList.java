@@ -24,7 +24,6 @@ public class AddChannelMemberToList extends BaseAction {
 
     public AddChannelMemberToList(HandlesAction actionHandler,Context context) {
         super(actionHandler);
-        Log.d("BAANCHOD","1234567891234567890");
         this.context = context;
     }
 
@@ -32,8 +31,6 @@ public class AddChannelMemberToList extends BaseAction {
     public void handle(String eventName, String channelName, String data) {
         super.handle(eventName, channelName, data);
         //Code for norification
-        Log.d("BAANCHOD","intintintintintintint");
-        Toast.makeText(context, "intintintintintintint", Toast.LENGTH_SHORT).show();
         Channel channel = (new Gson()).fromJson(data,Channel.class);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this.context);

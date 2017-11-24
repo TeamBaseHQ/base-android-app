@@ -5,7 +5,7 @@
     tools:context="com.example.base.base.channel.HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <ImageView
+    <!--<ImageView
         android:id="@+id/ivFhThread"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -44,7 +44,7 @@
         android:paddingLeft="20dp"
         android:textSize="@dimen/custom_list_heading_text_size"
         android:layout_height="wrap_content"
-        android:textColor="@color/text"/>
+        android:textColor="@color/text"/> -->
 
     <TextView
         android:id="@+id/tvFhChannels"
@@ -53,9 +53,8 @@
         android:text="Channels"
         android:textSize="@dimen/custom_list_heading_text_size"
         android:textStyle="bold"
-        android:layout_below="@+id/ivFhStarred"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="70dp"
         android:textColor="@color/text"
         />
 

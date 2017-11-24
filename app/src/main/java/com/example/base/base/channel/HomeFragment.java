@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment implements HandlesAction {
         //getActivity().setTitle("My Tasks");
 
         //references
-        starred = view.findViewById(R.id.tvFhStarred);
+       // starred = view.findViewById(R.id.tvFhStarred);
         rvHomeRecyclerView = (RecyclerView) view.findViewById(R.id.rvFhHomeChannel);
 
         channelsList.clear();
@@ -90,7 +90,7 @@ public class HomeFragment extends Fragment implements HandlesAction {
             getChannels();
         }
 
-        starred.setOnClickListener(new View.OnClickListener() {
+        /*starred.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Code for norification
@@ -103,7 +103,7 @@ public class HomeFragment extends Fragment implements HandlesAction {
                 // notificationID allows you to update the notification later on.
                 mNotificationManager.notify(1, mBuilder.build());
             }
-        });
+        });*/
 
         rvHomeRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), rvHomeRecyclerView, new RecyclerTouchListener.ClickListener() {
             @Override

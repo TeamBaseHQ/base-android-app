@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -159,9 +160,10 @@ public class MessageFragment extends Fragment implements HandlesAction {
     public void setList(List<Message> messages){
 
         List<ChatMessage> chatMessages = new ArrayList<>();
-
+        Log.d("ImageUrlThumb","in");
         try {
             for (Message message : messages) {
+                Log.d("ImageUrlThumb","bijo"+message.toString());
                 ChatMessage chatMessage = new ChatMessage(message);
                 chatMessages.add(chatMessage);
             }
@@ -169,6 +171,7 @@ public class MessageFragment extends Fragment implements HandlesAction {
             adapter.addToEnd(chatMessages, false);
         }catch (Exception e){
             e.printStackTrace();
+            Log.d("ImageUrlThumb","errrrrrrrrrrrrrrrrrrrror");
         }
     }
 

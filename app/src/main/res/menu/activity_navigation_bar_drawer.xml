@@ -7,7 +7,15 @@
             android:icon="@mipmap/add_createchannel"
             android:title="Teams"
             />
+
         <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/logout"
+            android:title="Logout"
+            />
+    </group>
+
+        <!--<item
             android:id="@+id/nav_all_threads"
             android:icon="@drawable/inbox"
             android:title="All Threads"
@@ -15,8 +23,7 @@
         <item
             android:id="@+id/nav_starred"
             android:icon="@drawable/starred"
-            android:title="Starred" />
-    </group>
+            android:title="Starred" />-->
 
     <item android:title="Channels"
         android:id="@+id/nav_channels">
@@ -28,5 +35,4 @@
                 />
         </menu>
     </item>
-
 </menu>

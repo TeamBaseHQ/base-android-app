@@ -1,14 +1,19 @@
 package com.example.base.base;
 
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -22,6 +27,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +40,7 @@ import com.example.base.base.actions.AddMessageToList;
 import com.example.base.base.actions.HandlesAction;
 import com.example.base.base.async.channel.ListChannelAsync;
 import com.example.base.base.async.user.GetUserAsync;
+import com.example.base.base.async.user.UploadImageAsync;
 import com.example.base.base.channel.CreateChannelFragment;
 import com.example.base.base.listener.channel.ChannelMemberWasAdded;
 import com.example.base.base.listener.channel.ChannelWasCreated;
@@ -41,9 +49,12 @@ import com.example.base.base.tabs.TabFragment;
 import com.example.base.base.tabs.ThreadTabFragment;
 import com.example.base.base.team.TeamListActivity;
 import com.example.base.base.thread.AllThreadsFragment;
+import com.example.base.base.user.LoginActivity;
+import com.example.base.base.user.RegisterActivity;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,6 +66,11 @@ public class NavigationBarActivity extends AppCompatActivity
     SharedPreferences sharedPreferences;
     Menu menu;
     HashMap<String,String> channelName_list = new HashMap<>();
+    private static final int SELECT_PICTURE = 100;
+    private String imagePath;
+    ImageView profilePic;
+    ImageView uploadImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +103,41 @@ public class NavigationBarActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
+        View hView =  navigationView.getHeaderView(0);
+        profilePic = (ImageView) hView.findViewById(R.id.nav_ivProfilePicture);
+
+        profilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog = new Dialog(NavigationBarActivity.this);
+                dialog.setContentView(R.layout.customdialog_uploadprofilepicture);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                uploadImage = dialog.findViewById(R.id.ivCuppProfilePicture);
+                uploadImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openImageChooser();
+                    }
+                });
+
+                Button upload = dialog.findViewById(R.id.btnCuppUpload);
+                upload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new UploadImageAsync(new File(imagePath),getApplication()){
+                            @Override
+                            protected void onPostExecute(String result) {
+                                Intent i = new Intent(NavigationBarActivity.this,NavigationBarActivity.class);
+                                startActivity(i);
+                            }
+                        }.execute();
+                    }
+                });
+
+                dialog.show();
+            }
+        });
 
         //Set team
         try {
@@ -139,7 +190,7 @@ public class NavigationBarActivity extends AppCompatActivity
         MenuItem item = menu.add(R.id.nav_channels, R.id.nav_design, 0 , "General");
         item.setIcon(R.drawable.ic_menu_share); // add icon with drawable resource*/
 
-        displaySelectedScreen(R.id.nav_all_threads);
+        displaySelectedScreen(R.id.nav_team);
     }
 
     @Override
@@ -180,11 +231,12 @@ public class NavigationBarActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Fragment fragment = null;
-        if (id == R.id.nav_all_threads) {
-            // Handle the camera action
-            fragment = new AllThreadsFragment();
-
-        } else if (id == R.id.nav_create_channels) {
+//        if (id == R.id.nav_all_threads) {
+//            // Handle the camera action
+//            fragment = new AllThreadsFragment();
+//
+//        } else
+        if (id == R.id.nav_create_channels) {
 
             fragment = TabFragment.newInstance(1);
 
@@ -193,9 +245,16 @@ public class NavigationBarActivity extends AppCompatActivity
             Intent i = new Intent(NavigationBarActivity.this,TeamListActivity.class);
             startActivity(i);
         }
-        else if(id == R.id.nav_starred)
+        else if(id == R.id.nav_logout)
         {
             stopService(new Intent(NavigationBarActivity.this, BackgroundMessageService.class));
+            SharedPreferences sharedPreferences = getSharedPreferences("BASE",Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear();
+            editor.commit();
+            Intent i = new Intent(NavigationBarActivity.this, LoginActivity.class);
+            startActivity(i);
+            finish();
         }
         else
         {
@@ -227,7 +286,7 @@ public class NavigationBarActivity extends AppCompatActivity
 
         //initializing the fragment object which is selected
         switch (itemId) {
-            case R.id.nav_all_threads:
+            case R.id.nav_team:
                 fragment = TabFragment.newInstance(0);
                 break;
         }
@@ -273,5 +332,42 @@ public class NavigationBarActivity extends AppCompatActivity
             // notificationID allows you to update the notification later on.
             mNotificationManager.notify(1, mBuilder.build());
         }
+    }
+
+    private void openImageChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == SELECT_PICTURE) {
+                // Get the url from data
+                Uri selectedImageUri = data.getData();
+                if (null != selectedImageUri) {
+                    // Get the path from the Uri
+                    imagePath = getPathFromURI(selectedImageUri);
+                    Log.i("Image Path","Image Path : " + imagePath);
+                    // Set the image in ImageView
+                    uploadImage.setImageURI(selectedImageUri);
+                }
+            }
+        }
+    }
+
+    public String getPathFromURI(Uri contentUri) {
+        Cursor cursor = getContentResolver().query(contentUri, null, null, null, null);
+        cursor.moveToFirst();
+        String document_id = cursor.getString(0);
+        document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
+        cursor.close();
+        cursor = getContentResolver().query(
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
+        cursor.moveToFirst();
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        cursor.close();
+        return path;
     }
 }

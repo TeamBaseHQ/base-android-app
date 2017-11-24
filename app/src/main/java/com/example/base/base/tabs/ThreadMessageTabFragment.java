@@ -78,7 +78,7 @@ public class ThreadMessageTabFragment extends Fragment {
                 MessageFragment.class, null);
 
         mTabHost.addTab(mTabHost.newTabSpec("Files").setIndicator("Files"),
-                PersonalMessageFragment.class, null);
+                MessageFragment.class, null);
 
         mTabHost.setCurrentTab(0);
 
